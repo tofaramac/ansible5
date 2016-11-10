@@ -1,0 +1,79 @@
+---
+- name: mariadb-server install
+  apt: name={{ item }} state=present update_cache=true cache_valid_time=86400
+  with_items:
+    - mariadb-server
+    - mariadb-client
+    - percona-xtrabackup
+  when: inventory_hostname in groups.mariadb
+
+- name: deploy my.cnf 
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf
+  when: inventory_hostname in groups.mariadb
+  
+- name: deploy galera.cnf 
+  template: src=galera.cnf.j2 dest=/etc/mysql/conf.d/galera.cnf
+  when: inventory_hostname in groups.mariadb
+  
+- name: deploy debian.cnf 
+  template: src=debian.cnf.j2 dest=/etc/mysql/conf.d/debian.cnf
+  when: inventory_hostname in groups.mariadb
+  
+- name: delete anonymous user
+  action: mysql_user user="" host="{{ inventory_hostname }}" state="absent"
+  when: inventory_hostname in groups.mariadb
+  ignore_errors: yes
+ 
+- name: delete anonymous user for localhost
+  action: mysql_user user="" state="absent"
+  when: inventory_hostname in groups.mariadb
+  ignore_errors: yes
+ 
+- name: remove the test database
+  action: mysql_db db=test state=absent
+  when: inventory_hostname in groups.mariadb
+  ignore_errors: yes
+
+# 'localhost' needs to be the last item for idempotency, see
+# http://ansible.cc/docs/modules.html#mysql-user   
+- name: change root user password on first run
+  mysql_user: login_user=root
+              login_password=''
+              name={{ users_db[0].user }}
+              password={{ users_db[0].password }}
+              priv=*.*:ALL,GRANT
+              host={{ item }}
+  with_items:
+    - "{{ inventory_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+  when: inventory_hostname in groups.mariadb
+  ignore_errors: yes
+  
+- name: change debian-sys-maint user password on first run
+  mysql_user: login_user=root
+              login_password=''
+              name={{ users_db[19].user }}
+              password={{ users_db[19].password }}
+              priv=*.*:ALL
+              host={{ item }}
+  with_items:
+    - "{{ inventory_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+  when: inventory_hostname in groups.mariadb
+  ignore_errors: yes
+
+- name: check mariadb stopped
+  service: name=mysql state=stopped
+  when: inventory_hostname in groups.mariadb
+  
+- name: start cluster controller
+  command: galera_new_cluster
+  when: inventory_hostname in groups.mariadb and inventory_hostname == mariadb[0].hostname
+    
+- name: start add node to cluster
+  service: name=mysql state=started
+  when: inventory_hostname in groups.mariadb and inventory_hostname != mariadb[0].hostname

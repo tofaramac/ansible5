@@ -1,0 +1,17 @@
+ansible_ssh_host: 192.168.1.154
+ppm_env: wks-act
+hostname: "{{ hostname }}"
+mac: 98:90:96:BF:3A:18
+
+user: janice
+user_first_surname: Janice Parsons"
+user_email: janice@prepaidmeters.com
+
+#jhb lan
+jhb_network: 192.168.1.0
+netmask: 255.255.255.0
+gateway: 192.168.1.254
+broadcast: 192.168.1.255
+dns_nameservers: 8.8.8.8 8.8.4.4 192.168.1.29
+# firewall
+external_map: none

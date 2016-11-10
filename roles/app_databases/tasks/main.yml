@@ -1,0 +1,43 @@
+# tasks for app_databases
+---
+- name: create databases
+  mysql_db: name={{item.dbname}} login_user="{{ users_db[0].user }}" 
+    login_password="{{ users_db[0].password }}"
+    state=present
+  with_items: 
+    - "{{ databases }}"
+  when: inventory_hostname in groups.mariadb
+  
+- name: create database users local
+  mysql_user: name={{item.user}} host={{item.localhost}} priv={{item.priv}} 
+    password={{item.password}} state=present update_password=always  
+    login_user="{{users_db[0].user}}" login_password="{{ users_db[0].password }}"
+  with_items:
+      - "{{ users_db }}"
+  when: inventory_hostname in groups.mariadb
+      
+- name: create database users remote
+  mysql_user: name={{item.user}} host={{item.remotehost}} priv={{item.priv}} 
+    password={{item.password}} state=present update_password=always  
+    login_user="{{users_db[0].user}}" login_password="{{ users_db[0].password }}"
+  with_items:
+      - "{{ users_db }}"
+  when: inventory_hostname in groups.mariadb
+
+#- name: set global variables
+#  mysql_variables: variable=group_concat_max_len value=20000 login_user="{{users_db.dev[0].user}}" 
+#    login_password="{{ users_db.dev[0].password }}"
+#  
+# /var/rsync/db/hourly/var/rsync/db/hourly/crescendo-hourly-201608051600.sql.gz  
+#- name: fetch prd db archive
+#  fetch: src=/var/rsync/db/hourly/crescendo-hourly-201608051600.sql.gz dest=/tmp/fetched/ flat=yes
+
+#- name: drop existing local databases
+
+#- name: extract archive
+
+#- name: restore db
+
+#- name: scrub db
+
+#- name: apply views

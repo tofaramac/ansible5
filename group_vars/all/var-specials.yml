@@ -1,0 +1,11 @@
+## YAML Template.
+---
+specials:
+  prd:
+  - {alias: "eskom_debtor_no_special", special: "0000006903"}
+  stg:
+  - {alias: "eskom_debtor_no_special", special: "0000006903"}
+  tst:
+  - {alias: "eskom_debtor_no_special", special: "0000006903"}
+  dev:
+  - {alias: "eskom_debtor_no_special", special: "0000006903"}

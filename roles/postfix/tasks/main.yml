@@ -1,0 +1,22 @@
+---
+# tasks file for postfix
+- name: set postfix type as internet site
+  debconf: name=postfix question="postfix/main_mailer_type" 
+    value="'Internet Site'" vtype="string"
+
+- name: set postfix option hostname
+  debconf: name=postifx question="postfix/mailname" 
+    value="{{ hostname}}" vtype="string"
+
+- name: postfix install
+  apt: name=postfix state=present update_cache=yes cache_valid_time=86400
+
+- name: postfix listen local interface only
+  template: src=main.cf.j2 dest=/etc/postfix/main.cf
+  notify: postfix restart
+  
+- name: mailutils install (provide sendmail in php, mail in console)
+  apt: name=mailutils state=present update_cache=yes cache_valid_time=86400
+  
+- name: postfix check
+  service: name=postfix enabled=true state=restarted

@@ -1,0 +1,13 @@
+---
+# defaults file for ssh
+openssh_port: 201
+
+permit_root_login: without-password
+
+authorized_keys_file: "/etc/ssh/authorized_keys/%u"
+
+password_authentication: no
+
+challenge_response_authentication: no
+
+use_pam: yes

@@ -1,0 +1,24 @@
+## YAML Template.
+---
+ipaddresses:
+  prd:
+    external:
+    - {alias: "impact_ip", ipaddress: "196.214.184.98"}
+    internal:
+    - {alias: "master_database_ip", ipaddress: "192.168.0.16"}
+  stg:
+    external:
+    - {alias: "impact_ip", ipaddress: "196.214.184.98"}
+    internal:
+    - {alias: "master_database_ip", ipaddress: "192.168.0.16"}
+  tst:
+    external:
+    - {alias: "impact_ip", ipaddress: "196.214.184.98"}
+    internal:
+    - {alias: "master_database_ip", ipaddress: "192.168.0.16"}
+  dev:
+    external:
+    - {alias: "impact_ip", ipaddress: "196.214.184.98"}
+    internal:
+    - {alias: "master_database_ip", ipaddress: "192.168.0.16"}
+

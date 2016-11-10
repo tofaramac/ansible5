@@ -1,0 +1,20 @@
+## YAML Template.
+---
+github:
+- {count: "0", alias: "ansible2", repo: "git@github.com:PrepaidMeters/ansible2.git"}
+- {count: "1", alias: "enbayahd", repo: "git@github.com:PrepaidMeters/enbayahd.git"}
+- {count: "2", alias: "crescendo", repo: "git@github.com:PrepaidMeters/crescendo.git"}
+- {count: "3", alias: "devdocs", repo: "git@github.com:PrepaidMeters/devdocs.git"}
+- {count: "4", alias: "generic", repo: "git@github.com:PrepaidMeters/generic.git"}
+- {count: "5", alias: "aurora", repo: "git@github.com:PrepaidMeters/aurora.git"}
+- {count: "6", alias: "erp", repo: "git@github.com:PrepaidMeters/erp.git"}
+- {count: "7", alias: "enbayasts", repo: "git@github.com:PrepaidMeters/enbayasts.git"}
+- {count: "8", alias: "ansible", repo: "git@github.com:PrepaidMeters/ansible.git"}
+- {count: "9", alias: "tcpdf", repo: "git@github.com:PrepaidMeters/tcpdf.git"}
+- {count: "10", alias: "documents", repo: "git@github.com:PrepaidMeters/documents.git"}
+- {count: "11", alias: "documentsdynamic", repo: "git@github.com:PrepaidMeters/documentsdynamic.git"}
+- {count: "12", alias: "sugarcrm", repo: "git@github.com:PrepaidMeters/sugarcrm.git"}
+- {count: "13", alias: "ppmwebsite_com", repo: "git@github.com:PrepaidMeters/prepaidmeters_com.git"}
+- {count: "14", alias: "ppmwebsite_coza", repo: "git@github.com:PrepaidMeters/prepaidmeters_co_za.git"}
+ 
+

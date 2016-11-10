@@ -1,0 +1,33 @@
+## YAML Template.
+---
+haproxy:
+- {count: '0', front_port: '80', back_port: '80' }
+apache2:
+- {count: '0', port: '80', ssl: '443' }
+mariadb:
+- {count: '0', port: '3306', gcomm: '4567', ist: '4568', sst: '4444'}
+bind:
+- {count: '0', port: ''}
+ntp:
+- {count: '0', port: ''}
+deb-proxy:
+- {count: '0', port: ''}
+dhcp:
+- {count: '0', port: ''}
+pxe:
+- {count: '0', port: ''}
+rsyslog:
+- {count: '0', port: ''}
+nfs:
+- {count: '0', port: '111'}
+nfssrv:
+- {count: '0', port: '2049'}
+sts:
+- {count: '0', port: '5100'}
+amqp:
+- {count: '0', port: '5672'}
+mail:
+- {count: '0', port: "25"}
+sip:
+- {count: '0', sip_port: '22557'}
+

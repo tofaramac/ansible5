@@ -1,0 +1,7 @@
+---
+# defaults file for erp
+project_name: erp
+
+project_path: "/var/www/{{ project_name }}"
+
+project_repo: "{{ github[6].repo }}"

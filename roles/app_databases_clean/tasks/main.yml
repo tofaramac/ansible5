@@ -1,0 +1,43 @@
+---
+# tasks file for app_database_clean
+# script only used on dev and tst. designed to take backups and clean them for dev and tst
+
+### clean database
+
+# drop existing db
+
+# create db
+
+# clean db
+
+# export db
+
+- name: drop databases
+  mysql_db: name={{item.dbname}} login_user="{{ users_db.dev[0].user }}" 
+    login_password="{{ users_db.dev[0].password }}"
+    state=absent
+  with_items: 
+    - "{{ databases.dev }}"
+
+- name: create databases
+  mysql_db: name={{item.dbname}} login_user="{{ users_db.dev[0].user }}" 
+    login_password="{{ users_db.dev[0].password }}"
+    state=absent
+  with_items: 
+    - "{{ databases.dev }}"
+
+- name: extract database backups
+  unarchive: src={{ item }} dest={{ item }}
+  with_items:
+    - 
+
+- name: restore extracted database backups
+  mysql_db: name={{item.dbname}} login_user="{{ users_db.dev[0].user }}" 
+    login_password="{{ users_db.dev[0].password }}"
+    state=absent
+  with_items: 
+    - "{{ databases.dev }}"
+
+- name: clean restored databases
+  
+ 

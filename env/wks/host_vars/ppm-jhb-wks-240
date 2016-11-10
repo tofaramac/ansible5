@@ -1,0 +1,20 @@
+ansible_ssh_host: 192.168.1.240
+ppm_env: wks-ops
+hostname: "{{ hostname }}"
+mac: 44:39:C4:50:7E:0B
+
+user: sean
+user_first_surname: "Sean Wheller"
+user_email: sean@prepaidmeters.com
+user_appended_groups: www-data
+user_projects: [aurora, crescendo, devdocs, erp, generic, documents, documentsdynamic, tcpdf, enbayahd, enbayasts]
+
+#jhb lan
+jhb_network: 192.168.1.0
+netmask: 255.255.255.0
+gateway: 192.168.1.254
+broadcast: 192.168.1.255
+dns_nameservers: 8.8.8.8 8.8.4.4 192.168.1.29
+
+# firewall
+external_map: none

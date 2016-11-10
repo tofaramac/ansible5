@@ -1,0 +1,9 @@
+## YAML Template.
+---
+- hosts: '{{ target }}'
+  become: true
+  
+  roles:
+    - apache2
+    - tftpd-hpa
+    - inetutils-inetd

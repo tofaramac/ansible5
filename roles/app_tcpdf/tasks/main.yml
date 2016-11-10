@@ -1,0 +1,21 @@
+---
+# tasks file for app_tcpdf
+- name: create apache server folder
+  file: path="{{ project_path }}" state=directory owner=www-data group=www-data 
+    mode=0755
+  when: inventory_hostname in groups.apache2
+
+- name: git clone project
+  git: repo="{{ project_repo }}" dest="{{ project_path }}" accept_hostkey=yes 
+    key_file="/home/netadmin/.ssh/id_rsa"
+  when: inventory_hostname in groups.apache2
+
+- name: set file permissions
+  file: dest={{ project_path }} owner=www-data group=www-data mode=0644 
+    recurse=yes
+  when: inventory_hostname in groups.apache2
+
+- name: set folder permissions
+  file: dest={{ project_path }} owner=www-data group=www-data mode=0775
+  when: inventory_hostname in groups.apache2
+

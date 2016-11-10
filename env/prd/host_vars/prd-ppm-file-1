@@ -1,0 +1,3 @@
+hostname: "{{ hosts.prd.file[1].hostname }}"
+ansible_ssh_host: "{{ hosts.prd.file[1].ipaddress }}"
+ext_nat: "{{ hosts.prd.file[1].ext_nat }}"

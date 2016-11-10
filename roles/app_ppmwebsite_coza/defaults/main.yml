@@ -1,0 +1,7 @@
+---
+# defaults file for app_ppmwebsite_coza
+project_name: ppmwebsite_coza
+
+project_path: "/var/www/{{ project_name }}"
+
+project_repo: "{{ github[14].repo }}"

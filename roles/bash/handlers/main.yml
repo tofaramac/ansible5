@@ -1,0 +1,5 @@
+---
+# handlers file for bash
+- name: reload bash 
+  command: '/bin/bash'
+  

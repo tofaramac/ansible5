@@ -1,0 +1,8 @@
+## YAML Template.
+---
+- name: install unifi controller
+  apt: name=unifi state=present update_cache=true cache_valid_time=86400
+
+- name: check unifi status
+  service: name=unifi state=restarted enabled=true
+

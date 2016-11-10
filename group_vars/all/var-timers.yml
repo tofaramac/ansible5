@@ -1,0 +1,19 @@
+## YAML Template.
+---
+timers:
+  prd:
+  - {alias: "maintenance_mode_timer", seconds: "300"}
+  - {alias: "clickatell_duplicate_transaction_check_timer", seconds: "180"}
+  - {alias: "unipin_duplicate_transaction_check_timer", seconds: "3600"}
+  stg:
+  - {alias: "maintenance_mode_timer", seconds: "300"}
+  - {alias: "clickatell_duplicate_transaction_check_timer", seconds: "180"}
+  - {alias: "unipin_duplicate_transaction_check_timer", seconds: "3600"}
+  tst:
+  - {alias: "maintenance_mode_timer", seconds: "300"}
+  - {alias: "clickatell_duplicate_transaction_check_timer", seconds: "180"}
+  - {alias: "unipin_duplicate_transaction_check_timer", seconds: "3600"}
+  dev:
+  - {alias: "maintenance_mode_timer", seconds: "300"}
+  - {alias: "clickatell_duplicate_transaction_check_timer", seconds: "180"}
+  - {alias: "unipin_duplicate_transaction_check_timer", seconds: "3600"}

@@ -1,0 +1,66 @@
+[vmlist-fields]
+network-traffic=false
+disk-usage=false
+
+[/]
+manager-window-height=550
+manager-window-width=550
+system-tray=true
+
+[details]
+show-toolbar=true
+
+[conns/qemu+ssh:sean@192.168.21.3:201system]
+pretty-name='ppm-jhb-infra-11: 192.168.21.3'
+
+[conns/qemu+ssh:sean@192.168.22.4:201system]
+pretty-name='ppm-jhb-infra-7: 192.168.22.4'
+
+[conns/qemu+ssh:sean@192.168.21.5:201system]
+pretty-name='ppm-jhb-infra-13: 192.168.21.5'
+
+[conns/qemu+ssh:sean@192.168.22.1:201system]
+pretty-name='ppm-jhb-infra-4: 192.168.22.1'
+
+[conns/qemu+ssh:sean@192.168.1.188:201system]
+pretty-name='Stephan: 192.168.1.188'
+
+[conns/qemu+ssh:sean@192.168.1.22:201system]
+pretty-name='ppm-jhb-infra-2: 192.168.1.22'
+
+[conns/qemu+ssh:sean@192.168.22.3:201system]
+pretty-name='ppm-jhb-infra-6: 192.168.22.3'
+
+[conns/qemu+ssh:sean@192.168.21.2:201system]
+pretty-name='ppm-jhb-infra-10: 192.168.21.2'
+
+[conns/qemu+ssh:sean@192.168.22.5:201system]
+pretty-name='ppm-jhb-infra-8: 192.168.22.5'
+
+[conns/qemu+ssh:sean@192.168.21.4:201system]
+pretty-name='ppm-jhb-infra-12: 192.168.21.4'
+
+[conns/qemu+ssh:sean@192.168.21.1:201system]
+pretty-name='ppm-jhb-infra-9: 192.168.21.1'
+
+[conns/qemu+ssh:sean@192.168.22.2:201system]
+pretty-name='ppm-jhb-infra-5: 192.168.22.2'
+
+[new-vm]
+graphics-type='system'
+
+[console]
+resize-guest=1
+
+[vms/e330afa986f149e5acc2b9b4cdc58fe3]
+vm-window-size=(820, 600)
+
+[vms/c36aa303b16a460cae24d86308d1a773]
+vm-window-size=(1024, 806)
+
+[connections]
+autoconnect=['qemu:///system']
+uris=['qemu+ssh://sean@192.168.1.188:201/system', 'qemu+ssh://sean@192.168.1.22:201/system', 'qemu+ssh://sean@192.168.22.1:201/system', 'qemu+ssh://sean@192.168.22.2:201/system', 'qemu+ssh://sean@192.168.22.3:201/system', 'qemu+ssh://sean@192.168.22.4:201/system', 'qemu+ssh://sean@192.168.22.5:201/system', 'qemu+ssh://sean@192.168.21.1:201/system', 'qemu+ssh://sean@192.168.21.2:201/system', 'qemu+ssh://sean@192.168.21.3:201/system', 'qemu+ssh://sean@192.168.21.4:201/system', 'qemu+ssh://sean@192.168.21.5:201/system', 'qemu:///system']
+
+[urls]
+isos=['/var/lib/libvirt/images/ubuntu-16.04.1-server-amd64.iso']

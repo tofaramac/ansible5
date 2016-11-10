@@ -1,0 +1,11 @@
+---
+# tasks file for ansible
+
+- name: ansible install
+  apt: name=ansible state=present update_cache=yes cache_valid_time=86400
+  
+- name: use hashed out cfg and hosts files
+  template: src={{item}}.j2 dest=/etc/ansible/{{item}}
+  with_items:
+    - ansible.cfg
+    - hosts          

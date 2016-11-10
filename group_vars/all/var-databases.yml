@@ -1,0 +1,41 @@
+## YAML Template.
+---
+databases:
+  prd:
+  - {alias: "crm_db", dbname: "{{ prd_crm_dbname }}"}
+  - {alias: "crescendo_db", dbname: "{{ prd_crescendo_dbname }}"}
+  - {alias: "aurora_db", dbname: "{{ prd_aurora_dbname }}"}
+  - {alias: "archive_db", dbname: "{{ prd_archive_dbname }}"}
+  - {alias: "audit_db", dbname: "{{ prd_audit_dbname }}"}
+  - {alias: "aurorabackup_db", dbname: "{{ prd_aurorabackup_dbname }}"}
+  - {alias: "enbayabackups_db", dbname: "{{ prd_enbayabackups_dbname }}"}
+  - {alias: "enbayasts_db", dbname: "{{ prd_enbayasts_dbname }}"}
+  - {alias: "AuroraMovedToCrescendo_db", dbname: "{{ prd_AuroraMovedToCrescendo_dbname }}"}
+  - {alias: "joomla_db", dbname: "{{ prd_joomla_dbname }}"}
+  - {alias: "propertyware_db", dbname: "{{ prd_propertyware_dbname }}"}
+  stg:
+  - {alias: "crm_db", dbname: "{{ stg_crm_dbname }}"}
+  - {alias: "crescendo_db", dbname: "{{ stg_crescendo_dbname }}"}
+  - {alias: "aurora_db", dbname: "{{ stg_aurora_dbname }}"}
+  - {alias: "archive_db", dbname: "{{ stg_archive_dbname }}"}
+  - {alias: "audit_db", dbname: "{{ stg_audit_dbname }}"}
+  - {alias: "aurorabackup_db", dbname: "{{ stg_aurorabackup_dbname }}"}
+  - {alias: "enbayabackups_db", dbname: "{{ stg_enbayabackups_dbname }}"}
+  - {alias: "enbayasts_db", dbname: "{{ stg_enbayasts_dbname }}"}
+  - {alias: "AuroraMovedToCrescendo_db", dbname: "{{ stg_AuroraMovedToCrescendo_dbname }}"}
+  - {alias: "joomla_db", dbname: "{{ stg_joomla_dbname }}"}
+  - {alias: "propertyware_db", dbname: "{{ stg_propertyware_dbname }}"}
+  dev:
+  - {alias: "crm_db", dbname: "{{ dev_crm_dbname }}"}
+  - {alias: "crescendo_db", dbname: "{{ dev_crescendo_dbname }}"}
+  - {alias: "aurora_db", dbname: "{{ dev_aurora_dbname }}"}
+  - {alias: "archive_db", dbname: "{{ dev_archive_dbname }}"}
+  - {alias: "audit_db", dbname: "{{ dev_audit_dbname }}"}
+  - {alias: "aurorabackup_db", dbname: "{{ dev_aurorabackup_dbname }}"}
+  - {alias: "enbayabackups_db", dbname: "{{ dev_enbayabackups_dbname }}"}
+  - {alias: "enbayasts_db", dbname: "{{ dev_enbayasts_dbname }}"}
+  - {alias: "AuroraMovedToCrescendo_db", dbname: "{{ dev_AuroraMovedToCrescendo_dbname }}"}
+  - {alias: "joomla_db", dbname: "{{ dev_joomla_dbname }}"}
+  - {alias: "propertyware_db", dbname: "{{ dev_propertyware_dbname }}"}
+  
+  

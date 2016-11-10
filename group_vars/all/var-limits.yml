@@ -1,0 +1,15 @@
+## YAML Template.
+---
+limits:
+  prd:
+  - {alias: "test_token_kwh_max_limit", limit: "5"}
+  - {alias: "test_token_kwh_max_admin_limit", limit: "999"}
+  stg:
+  - {alias: "test_token_kwh_max_limit", limit: "5"}
+  - {alias: "test_token_kwh_max_admin_limit", limit: "999"}
+  tst:
+  - {alias: "test_token_kwh_max_limit", limit: "5"}
+  - {alias: "test_token_kwh_max_admin_limit", limit: "999"}
+  dev:
+  - {alias: "test_token_kwh_max_limit", limit: "5"}
+  - {alias: "test_token_kwh_max_admin_limit", limit: "999"}

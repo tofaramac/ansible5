@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Tofara Machemdze
+  description: Install Rundeck
+  company:
+  license: BSD
+  min_ansible_version: xenial
+  github_branch: master
+  platforms:
+    - name: Ubuntu
+      versions:
+        - xenial
+  galaxy_tags:
+    - system
+  dependencies: []
+

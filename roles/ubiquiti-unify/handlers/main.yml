@@ -1,0 +1,10 @@
+---
+# handlers file for ubiquiti-unify
+- name: unifi start
+  service: name=unifi state=started
+  
+- name: unifi stop
+  service: name=unifi state=stop
+  
+- name: unifi restart
+  service: name=unifi state=restarted

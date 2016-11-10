@@ -1,0 +1,28 @@
+---
+# tasks file for aurora
+- name: create apache server folder
+  file: path="{{ project_path }}" state=directory owner=www-data group=www-data
+    mode=0755
+  when: inventory_hostname in groups.apache2
+
+- name: git clone project
+  git: repo="{{ project_repo }}" dest="{{ project_path }}" accept_hostkey=yes 
+    key_file="/home/netadmin/.ssh/id_rsa"
+  when: inventory_hostname in groups.apache2
+  
+- name: deploy apache conf files
+  template: src={{ project_name }}.prepaidmeters.conf.j2 
+    dest=/etc/apache2/sites-available/{{ project_name }}.prepaidmeters.{{ tld[0].tld }}.conf
+  when: inventory_hostname in groups.apache2
+  
+- name: enable sites available
+  command: a2ensite {{ project_name }}.prepaidmeters.{{ tld[0].tld }}.conf
+  when: inventory_hostname in groups.apache2
+  
+- name: set all folder permissions (0755)
+  command: find {{ project_path }} -type d -exec chmod -c 0755 {} \;
+  when: inventory_hostname in groups.apache2
+  
+- name: set all file permissions (0644)
+  command: find {{ project_path }}/ -type f -exec chmod -c 0644 {} \;
+  when: inventory_hostname in groups.apache2

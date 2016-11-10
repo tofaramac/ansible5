@@ -1,0 +1,48 @@
+---
+# tasks file for rundeck
+- name: create (download) directory
+  file: path={{rundeck_download_path}} state=directory owner=root
+    group=root mode=0755
+    
+- name: rundeck download 
+  get_url: url="http://dl.bintray.com/rundeck/rundeck-deb/rundeck-{{rundeck_version}}-GA.deb"
+    dest="{{rundeck_download_path}}/rundeck-{{rundeck_version}}-GA.deb" owner=root 
+    group=root mode=0755
+  register: download
+
+- name: rundeck install
+  command: dpkg -i rundeck-{{rundeck_version}}-GA.deb
+  args: 
+    chdir: "{{rundeck_download_path}}"
+  when: download | changed
+  
+- name: check if ansible plugin installed
+  stat: path="/var/lib/rundeck/libext/ansible-plugin-1.4.0.jar"
+  register: ansible_plugin
+
+- name: get rundeck plugins
+  get_url: url={{item.url}} dest={{item.dest}}
+  with_items:
+    - { url: "https://github.com/Batix/rundeck-ansible-plugin/releases/download/1.4.0/ansible-plugin-1.4.0.jar", dest: "/var/lib/rundeck/libext/" }
+  when: ansible_plugin.stat.exists == False
+
+- name: update realm properties
+  template: src={{ item }}.j2 dest=/etc/rundeck/{{ item }} owner=rundeck group=rundeck mode=0640
+  with_items:
+    - admin.aclpolicy
+    - apitoken.aclpolicy
+    - cli-log4j.properties
+    - framework.properties
+    - jaas-loginmodule.conf
+    - log4j.properties
+    - profile
+    - project.properties
+    - realm.properties
+    - rundeck-config.properties
+  notify: rundeck restart
+
+- name: check rundeck started
+  service: name=rundeckd state=running enabled=yes
+
+- name: check rundeck port listening
+  wait_for: host={{ ansible_default_ipv4.address }} port=4440 timeout=1

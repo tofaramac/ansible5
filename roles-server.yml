@@ -1,0 +1,30 @@
+## YAML Template.
+---
+roles:
+  - boostrap
+# base host
+  - network
+  - apt
+  - users
+  - ssh-keys
+  - bash
+  - server-base
+  - postfix
+  - nrpe-agent
+  - nfs
+  - logwatch
+  - acct
+  - logrotate
+  - python
+  - git
+  - chrootkit
+  - maldetect
+  - rkhunter
+# services
+  - rsyslog
+  - mount
+  - autofs
+# - ufw fails on 16.04
+
+
+# checks

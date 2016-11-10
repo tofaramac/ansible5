@@ -1,0 +1,21 @@
+// # {{ ansible_managed }}
+acl "trusted" {
+    {{ infra[0].ipaddress }};
+    {{ infra[1].ipaddress }};
+    {{ networks[0].network }}/24;
+    {{ networks[1].network }}/24;
+};
+
+options {
+    directory "/var/cache/bind";
+
+    recursion yes;
+    allow-recursion { trusted; };
+    listen-on { {{ ansible_default_ipv4.address }}; };
+    allow-transfer { none; };
+
+    forwarders {
+        {{ dns[0].ipaddress }};
+        {{ dns[1].ipaddress }};
+    };
+};

@@ -1,0 +1,170 @@
+## YAML Template.
+---
+tag: 0
+
+users: users
+dns: dns
+fqdn: fqdn
+subdomains: subdomains
+tld: tld
+folders: folders
+
+cluster_name: "{{strata}}-ppm-clr"
+
+users:
+- {count: '0', username: 'netadmin', user_full: 'ppm systems', user_email: 'systems@prepaidmeters.com', groups: 'sudo',
+   shell: '/bin/bash', sshkey_pvt: '{{ netadmin_id_rsa }}', sshkey_pub: '{{ netadmin_id_rsa_pub }}'
+    }
+- {count: '1', username: 'sean', user_full: 'Sean Wheller', user_email: 'sean@prepaidmeters.com', groups: 'sudo',
+   shell: '/bin/bash', sshkey_pvt: '{{ sean_id_rsa }}', sshkey_pub: '{{ sean_id_rsa_pub }}'
+    }
+- {count: '2', username: 'tofara', user_full: 'Tofara Machemedze', user_email: 'tofara@prepaidmeters.com', groups: 'sudo',
+   shell: '/bin/bash', sshkey_pvt: '{{ tofara_id_rsa }}', sshkey_pub: '{{ tofara_id_rsa_pub }}'
+    }
+- {count: '3', username: 'andries', user_full: 'Andries Esterhuizen', user_email: 'andries@prepaidmeters.com', groups: 'sudo',
+   shell: '/bin/bash', sshkey_pvt: '{{ andries_id_rsa }}', sshkey_pub: '{{ andries_id_rsa_pub }}'
+    }
+
+networks:
+- {count: '0', network: '192.168.21.0', netmask: '255.255.255.0', gateway: '192.168.21.254', broadcast: '192.168.21.255' }
+- {count: '1', network: '192.168.22.0', netmask: '255.255.255.0', gateway: '192.168.22.254', broadcast: '192.168.22.255' }
+
+dns:
+- {count: '00', alias: "google_1_dns", ipaddress: "8.8.8.8"}
+- {count: '01', alias: "google_2_dns", ipaddress: "8.8.4.4"}
+
+subdomains:
+- {count: '0', domain: "www"}
+- {count: '1', domain: "mail"}
+
+fqdn:
+- {count: '0', domain: "{{ subdomains }}.{{ strata }}[0].domain.{{ subdomains }}.{{ strata }}[0].domain }}.{{ tld }}.{{ strata }}[0].tld"}
+- {count: '1', domain: "{{ subdomains }}.{{ strata }}[1].domain.{{ subdomains }}.{{ strata }}[0].domain }}.{{ tld }}.{{ strata }}[0].tld"}
+  
+domains:
+- {count: '0', domain: "prepaidmeters"}
+
+tld::
+- {count: '0', tld: ".example"}
+
+mounts:
+- {count: '00', mntserver: '192.168.21.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-0', mnttype: 'nfs'}
+- {count: '01', mntserver: '192.168.22.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-1', mnttype: 'nfs'}
+- {count: '02', mntserver: '192.168.21.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-0', mnttype: 'nfs'}
+- {count: '03', mntserver: '192.168.22.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-1', mnttype: 'nfs'}
+- {count: '04', mntserver: '192.168.21.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-0', mnttype: 'nfs'}
+- {count: '05', mntserver: '192.168.22.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-1', mnttype: 'nfs'}
+- {count: '06', mntserver: '192.168.21.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-0', mnttype: 'nfs'}
+- {count: '07', mntserver: '192.168.22.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-1', mnttype: 'nfs'}
+- {count: '08', mntserver: '192.168.21.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-0', mnttype: 'nfs'}
+- {count: '09', mntserver: '192.168.22.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-1', mnttype: 'nfs'}
+- {count: '10', mntserver: '192.168.21.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-0', mnttype: 'nfs'}
+- {count: '11', mntserver: '192.168.22.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-1', mnttype: 'nfs'}
+- {count: '12', mntserver: '192.168.21.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-0', mnttype: 'nfs'}
+- {count: '13', mntserver: '192.168.22.204', mnttarget: '/var/nfs', mntpoint: '/mnt/nfs/stg-ppm-file-1', mnttype: 'nfs'}
+      
+#hosts:
+haproxy:
+- {count: '0', hostname: 'stg-ppm-ha-0', ipaddress: '192.168.21.200', mac: '52:54:00:21:21:00', ext_nat: 'none'}
+- {count: '1', hostname: 'stg-ppm-ha-1', ipaddress: '192.168.22.200', mac: '52:54:00:22:22:00', ext_nat: 'none'}
+apache2:
+- {count: '0', hostname: 'stg-ppm-www-0', ipaddress: '192.168.21.201', mac: '52:54:00:21:21:01', ext_nat: 'none'}
+- {count: '1', hostname: 'stg-ppm-www-1', ipaddress: '192.168.22.201', mac: '52:54:00:22:22:01', ext_nat: 'none'}
+mariadb:
+- {count: '0', hostname: 'stg-ppm-clr-0', ipaddress: '192.168.21.202', mac: '52:54:00:21:21:02', ext_nat: 'none'}
+- {count: '1', hostname: 'stg-ppm-clr-1', ipaddress: '192.168.22.202', mac: '52:54:00:22:22:02', ext_nat: 'none'}
+- {count: '1', hostname: 'stg-ppm-clr-2', ipaddress: '192.168.21.203', mac: '52:54:00:21:21:03', ext_nat: 'none'}
+- {count: '3', hostname: 'stg-ppm-clr-3', ipaddress: '192.168.22.203', mac: '52:54:00:22:22:03', ext_nat: 'none'}
+file:
+- {count: '0', hostname: 'stg-ppm-file-0', ipaddress: '192.168.21.204', mac: '52:54:00:21:21:04', ext_nat: 'none'}
+- {count: '1', hostname: 'stg-ppm-file-1', ipaddress: '192.168.22.204', mac: '52:54:00:22:22:04', ext_nat: 'none'}
+sts:
+- {count: '0', hostname: 'stg-ppm-sts-0', ipaddress: '192.168.21.205', mac: '52:54:00:21:21:05', ext_nat: 'none'}
+- {count: '1', hostname: 'stg-ppm-sts-1', ipaddress: '192.168.22.205', mac: '52:54:00:22:22:05', ext_nat: 'none'}
+infra:
+- {count: '0', hostname: 'stg-ppm-infra-0', ipaddress: '192.168.21.206', mac: '52:54:00:21:21:06', ext_nat: 'none'}
+- {count: '1', hostname: 'stg-ppm-infra-1', ipaddress: '192.168.22.206', mac: '52:54:00:22:22:06', ext_nat: 'none'}
+mail:
+- {count: '0', hostname: 'stg-ppm-mail-0', ipaddress: '192.168.21.206', mac: '52:54:00:21:21:07', ext_nat: 'none'}
+- {count: '1', hostname: 'stg-ppm-mail-1', ipaddress: '192.168.22.206', mac: '52:54:00:22:22:07', ext_nat: 'none'}
+voip:
+- {count: '0', hostname: 'stg-ppm-voip-0', ipaddress: '192.168.21.206', mac: '52:54:00:21:21:08', ext_nat: 'none'}
+- {count: '1', hostname: 'stg-ppm-voip-1', ipaddress: '192.168.22.206', mac: '52:54:00:22:22:08', ext_nat: 'none'}
+  
+folders:
+- {count: "0", alias: "crescendo_folder", path: "/var/www/crescendo/webroot/webroot"}
+- {count: "1", alias: "aurora_folder", path: "/var/www/aurora/"}
+- {count: "2", alias: "erp_folder", path: "/var/www/erp/"}
+- {count: "3", alias: "generic_folder", path: "/var/www/generic/"}
+- {count: "4", alias: "blank", path: "blank"}
+- {count: "5", alias: "blank", path: "blank"}
+- {count: "6", alias: "blank", path: "blank"}
+- {count: "7", alias: "documents_folder", path: "/mnt/nfs/var/nfs/prd-ppm-www-0/documents/trunk/"}
+- {count: "8", alias: "documentsdynamic_folder", path: "/mnt/nfs/var/nfs/prd-ppm-www-0/documentsdynamic/"}
+- {count: "9", alias: "devdatabasedestination_folder", path: "/var/www/generic/databasesamples/"}
+- {count: "10", alias: "temp_folder", path: "/tmp/"}
+- {count: "11", alias: "enbayacronrootlogdir_folder", path: "/var/log/enbaya/"}
+- {count: "12", alias: "rsync_folder", path: "/run/ppm/"}
+- {count: "13", alias: "backup_folder", path: "/var/backups/mysql/"}
+- {count: "14", alias: "backuprestore_folder", path: "/var/backups/mysql/work/"}
+- {count: "15", alias: "databasebackup_folder", path: "/var/rsync/db/"}
+- {count: "16", alias: "devdatabasework_folder", path: "${devdatabasedestination_folder}/work/"}
+- {count: "17", alias: "pathtovoicerecordings_folder", path: "/var/tmp"}
+- {count: "18", alias: "impactftpdirectory_folder", path: "prepaid/"}
+- {count: "19", alias: "devdocs_folder", path: "/opt/devdocs"}
+- {count: "20", alias: "enbayasts_folder", path: "/var/www/enbayasts"}
+- {count: "21", alias: "tcpdf_folder", path: "/var/www/tcpdf"}
+- {count: "22", alias: "sugarcrm_folder", path: "/var/www/sugarcrm"}
+- {count: "23", alias: "ppmwebsite_folder", path: "/var/www/ppmwebsite"}
+- {count: "24", alias: "geo_folder", path: "/var/www/geo/"}
+
+emails:
+- {count: '0', alias: "systems_email", email: "stg-systems@prepaidmeters.com"}
+- {count: '1', alias: "sales_email", email: "stg-sales@prepaidmeters.com"}
+- {count: '2', alias: "support_email", email: "stg-support@prepaidmeters.com"}
+- {count: '3', alias: "testing_email", email: "stg-testing@prepaidmeters.com"}
+- {count: '4', alias: "development_email", email: "stg-development@prepaidmeters.com"}
+- {count: '5', alias: "accounts_email", email: "stg-accounts@prepaidmeters.com"}
+- {count: '6', alias: "accounts-warnings_email", email: "stg-accounts-warnings@prepaidmeters.com"}
+- {count: '7', alias: "product_email", email: "stg-product@prepaidmeters.com"}
+- {count: '8', alias: "alerts_email", email: "stg-alerts@prepaidmeters.com"}
+- {count: '9', alias: "backups_email", email: "stg-backups@prepaidmeters.com"}
+- {count: '10', alias: "cigicell_email", email: "stg-cigicell@prepaidmeters.com"}
+- {count: '11', alias: "testing_email", email: "testing@prepaidmeters.co.co.za"}
+  
+smtp:
+- {alias: "ppm_smtp", host: "mail.prepaidmeters.co.za", port: "25", user: "{{ ppm_smtp_user }}", password: "{{ ppm_smtp_pass }}", crypt: "tls", auth: "True"}
+
+users_db:
+- {alias: "user1", user: "{{user1_user}}", password: "{{stg_user1_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user1_priv}}"}
+- {alias: "user2", user: "{{user2_user}}", password: "{{stg_user2_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user2_priv}}"}
+- {alias: "user3", user: "{{user3_user}}", password: "{{stg_user3_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user3_priv}}"}
+- {alias: "user4", user: "{{user4_user}}", password: "{{stg_user4_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user4_priv}}"}
+- {alias: "user5", user: "{{user5_user}}", password: "{{stg_user5_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user5_priv}}"}
+- {alias: "user6", user: "{{user6_user}}", password: "{{stg_user6_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user6_priv}}"}
+- {alias: "user7", user: "{{user7_user}}", password: "{{stg_user7_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user7_priv}}"}
+- {alias: "user8", user: "{{user8_user}}", password: "{{stg_user8_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user8_priv}}"}
+- {alias: "user9", user: "{{user9_user}}", password: "{{stg_user9_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user9_priv}}"}
+- {alias: "user10", user: "{{user10_user}}", password: "{{stg_user10_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user10_priv}}"}
+- {alias: "user11", user: "{{user11_user}}", password: "{{stg_user11_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user11_priv}}"}
+- {alias: "user12", user: "{{user12_user}}", password: "{{stg_user12_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user12_priv}}"}
+- {alias: "user13", user: "{{user13_user}}", password: "{{stg_user13_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user13_priv}}"}
+- {alias: "user14", user: "{{user14_user}}", password: "{{stg_user14_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user14_priv}}"}
+- {alias: "user15", user: "{{user15_user}}", password: "{{stg_user15_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user15_priv}}"}
+- {alias: "user16", user: "{{user16_user}}", password: "{{stg_user16_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user16_priv}}"}
+- {alias: "user17", user: "{{user17_user}}", password: "{{stg_user17_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user17_priv}}"}
+- {alias: "user18", user: "{{user18_user}}", password: "{{stg_user18_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user18_priv}}"}
+- {alias: "user19", user: "{{user19_user}}", password: "{{stg_user19_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user19_priv}}"}
+
+usernames_external:
+- {alias: "git_hub_user", username: "ppmsystems"}
+- {alias: "impact_ftp_user", username: "water"}
+- {alias: "clickatell_aurora_mobile_user", username: "clickatellws"}
+- {alias: "cigicell_aurora_mobile_user", username: "cigicellws"}
+- {alias: "impact_id_user", username: "45602"}
+
+usernames_internal:
+- {alias: "crm_soap_user", username: "netmin"}
+- {alias: "route_sms_user", username: "prepaidsms"}
+- {alias: "hexing_webservice_user", username: "juice"}
+- {alias: "enbayasts_user", username: "enbayasts"}

@@ -1,0 +1,28 @@
+---
+# tasks file for kvm
+- name: kvm install
+  apt: name={{item}} state=present update_cache=yes
+  with_items:
+      - qemu-kvm
+      - libvirt-bin
+      - libvirt-dev
+      - ubuntu-vm-builder
+      - bridge-utils
+  when: inventory_hostname in groups.kvm_host
+  notify: libvirt restart
+
+- name: virtual machine manager install
+  apt: name={{item}} state=present update_cache=yes
+  with_items:
+    - virt-manager
+    - qemu-system
+  when: inventory_hostname in groups.dev or in groups.ops
+
+
+#To be done
+#sean@ppm-jhb-wks-240:~$ dconf dump /org/virt-manager/virt-manager/ > virt-manager-dump.dconf
+#sean@ppm-jhb-wks-240:~$ vim virt-manager-dump.dconf 
+#sean@ppm-jhb-wks-240:~$ dconf load /org/virt-manager/virt-manager/ < virt-manager-dump.dconf
+#sean@ppm-jhb-wks-240:~$ mkdir ansible2/roles/kvm/templates
+#sean@ppm-jhb-wks-240:~$ cp virt-manager-dump.dconf ansible2/roles/kvm/templates/virt-manager.dconf.j2
+#sean@ppm-jhb-wks-240:~$

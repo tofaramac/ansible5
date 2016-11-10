@@ -1,0 +1,4 @@
+---
+# defaults file for postfix
+
+postfix_inet_interfaces: all

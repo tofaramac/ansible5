@@ -1,0 +1,12 @@
+---
+# tasks file for users
+
+- name: users debig
+  debug: msg="{{ users }}"
+  
+- name: user add
+  user: name={{ item.username }} comment={{ item.user_full }} shell={{ item.shell }} 
+    groups={{ item.groups }} append=yes state=present
+  with_items: "{{ users }}"
+  
+

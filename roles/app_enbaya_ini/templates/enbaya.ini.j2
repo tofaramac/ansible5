@@ -1,0 +1,591 @@
+# {{ ansible_managed }}
+[OLD_INI_COMPAT]
+DNSPREFIX={{dnsprefix}}
+
+[group_vars]
+[strata]
+strata={{strata}}
+
+[runtime]
+debug={{debug}}
+
+[environment]
+environment={{env}}
+
+[maintenancemode]
+maintenancemode=0
+
+[database]
+dbhost={{dbhost}}
+
+
+[group_vars/all]
+
+[apis]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for apis in apis.prd %}
+{{apis.alias}}_apiid={{apis.apiid}}
+{{apis.alias}}_user={{apis.user}}
+{{apis.alias}}_pass={{apis.password}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for apis in apis.stg %}
+{{apis.alias}}_apiid={{apis.apiid}}
+{{apis.alias}}_user={{apis.user}}
+{{apis.alias}}_pass={{apis.password}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for apis in apis.tst %}
+{{apis.alias}}_apiid={{apis.apiid}}
+{{apis.alias}}_user={{apis.user}}
+{{apis.alias}}_pass={{apis.password}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for apis in apis.dev %}
+{{apis.alias}}_apiid={{apis.apiid}}
+{{apis.alias}}_user={{apis.user}}
+{{apis.alias}}_pass={{apis.password}}
+{% endfor %}{% endif %}
+
+[authkeys]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for authkeys in authkeys.prd.external %}
+{{authkeys.alias}}={{authkeys.key}}
+{% endfor %}
+{% for authkeys in authkeys.prd.google %}
+{{authkeys.alias}}={{authkeys.key}}
+{% endfor %}
+{% for authkeys in authkeys.prd.facebook %}
+{{authkeys.alias}}={{authkeys.key}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for authkeys in authkeys.stg.external %}
+{{authkeys.alias}}={{authkeys.key}}
+{% endfor %}
+{% for authkeys in authkeys.stg.google %}
+{{authkeys.alias}}={{authkeys.key}}
+{% endfor %}
+{% for authkeys in authkeys.stg.facebook %}
+{{authkeys.alias}}={{authkeys.key}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for authkeys in authkeys.tst.external %}
+{{authkeys.alias}}={{authkeys.key}}
+{% endfor %}
+{% for authkeys in authkeys.tst.google %}
+{{authkeys.alias}}={{authkeys.key}}
+{% endfor %}
+{% for authkeys in authkeys.tst.facebook %}
+{{authkeys.alias}}={{authkeys.key}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for authkeys in authkeys.dev.external %}
+{{authkeys.alias}}={{authkeys.key}}
+{% endfor %}
+{% for authkeys in authkeys.dev.google %}
+{{authkeys.alias}}={{authkeys.key}}
+{% endfor %}
+{% for authkeys in authkeys.dev.facebook %}
+{{authkeys.alias}}={{authkeys.key}}
+{% endfor %}{% endif %}
+
+[config]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for items in config.prd %}
+{{items.alias}}_host={{items.host}}
+{{items.alias}}_port={{items.port}}
+{{items.alias}}_user={{items.user}}
+{{items.alias}}_password={{items.password}}
+{{items.alias}}_crypt={{items.crypt}}
+{{items.alias}}_auth={{items.auth}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for smtps in config.stg %}
+{{smtps.alias}}_host={{smtps.host}}
+{{smtps.alias}}_port={{smtps.port}}
+{{smtps.alias}}_user={{smtps.user}}
+{{smtps.alias}}_password={{smtps.password}}
+{{smtps.alias}}_crypt={{smtps.crypt}}
+{{smtps.alias}}_auth={{smtps.auth}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for smtps in config.tst %}
+{{smtps.alias}}_host={{smtps.host}}
+{{smtps.alias}}_port={{smtps.port}}
+{{smtps.alias}}_user={{smtps.user}}
+{{smtps.alias}}_password={{smtps.password}}
+{{smtps.alias}}_crypt={{smtps.crypt}}
+{{smtps.alias}}_auth={{smtps.auth}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for smtps in config.dev %}
+{{smtps.alias}}_host={{smtps.host}}
+{{smtps.alias}}_port={{smtps.port}}
+{{smtps.alias}}_user={{smtps.user}}
+{{smtps.alias}}_password={{smtps.password}}
+{{smtps.alias}}_crypt={{smtps.crypt}}
+{{smtps.alias}}_auth={{smtps.auth}}
+{% endfor %}{% endif %}
+
+[crypt]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for crypts in crypts.prd %}
+{{crypts.alias}}={{crypts.token}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for crypts in crypts.stg %}
+{{crypts.alias}}={{crypts.token}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for crypts in crypts.tst %}
+{{crypts.alias}}={{crypts.token}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for crypts in crypts.dev %}
+{{crypts.alias}}={{crypts.token}}
+{% endfor %}{% endif %}
+
+[databases]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for databases in databases.prd %}
+{{databases.alias}}={{databases.dbname}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for databases in databases.stg %}
+{{databases.alias}}={{databases.dbname}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for databases in databases.tst %}
+{{databases.alias}}={{databases.dbname}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for databases in databases.dev %}
+{{databases.alias}}={{databases.dbname}}
+{% endfor %}{% endif %}
+
+[dns]
+[domains]
+
+[emails]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for emails in emails.prd %}
+{{emails.alias}}={{emails.email}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for emails in emails.stg %}
+{{emails.alias}}={{emails.email}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for emails in emails.tst %}
+{{emails.alias}}={{emails.email}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+TICKETSEMAILUSERNAME=godfrey@prepaidmeters.com
+
+{% for emails in emails.dev %}
+{{emails.alias}}={{emails.email}}
+{% endfor %}{% endif %}
+
+[files]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for files in files.prd %}
+{{files.alias}}={{files.file}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for files in files.stg %}
+{{files.alias}}={{files.file}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for files in files.tst %}
+{{files.alias}}={{files.file}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for files in files.dev %}
+{{files.alias}}={{files.file}}
+{% endfor %}{% endif %}
+
+[folders]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for paths in folders.prd %}
+{{paths.alias}}={{paths.path}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for paths in folders.stg %}
+{{paths.alias}}={{paths.path}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for paths in folders.tst %}
+{{paths.alias}}={{paths.path}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for paths in folders.dev %}
+{{paths.alias}}={{paths.path}}
+{% endfor %}{% endif %}
+
+[fqdns]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for fqdns in fqdns.prd.external %}
+{{fqdns.alias}}={{fqdns.fqdn}}
+{% endfor %}
+
+{% for fqdns in fqdns.prd.internal %}
+{{fqdns.alias}}={{fqdns.fqdn}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for fqdns in fqdns.stg.external %}
+{{fqdns.alias}}={{fqdns.fqdn}}
+{% endfor %}
+
+{% for fqdns in fqdns.stg.internal %}
+{{fqdns.alias}}={{fqdns.fqdn}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for fqdns in fqdns.tst.external %}
+{{fqdns.alias}}={{fqdns.fqdn}}
+{% endfor %}
+
+{% for fqdns in fqdns.tst.internal %}
+{{fqdns.alias}}={{fqdns.fqdn}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for fqdns in fqdns.dev.external %}
+{{fqdns.alias}}={{fqdns.fqdn}}
+{% endfor %}
+
+{% for fqdns in fqdns.dev.internal %}
+{{fqdns.alias}}={{fqdns.fqdn}}
+{% endfor %}{% endif %}
+
+[hosts]
+
+[ipaddresses]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for ipaddresses in ipaddresses.prd.external %}
+{{ipaddresses.alias}}={{ipaddresses.ipaddress}}
+{% endfor %}
+
+{% for ipaddresses in ipaddresses.prd.internal %}
+{{ipaddresses.alias}}={{ipaddresses.ipaddress}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for ipaddresses in ipaddresses.stg.external %}
+{{ipaddresses.alias}}={{ipaddresses.ipaddress}}
+{% endfor %}
+
+{% for ipaddresses in ipaddresses.stg.internal %}
+{{ipaddresses.alias}}={{ipaddresses.ipaddress}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for ipaddresses in ipaddresses.tst.external %}
+{{ipaddresses.alias}}={{ipaddresses.ipaddress}}
+{% endfor %}
+
+{% for ipaddresses in ipaddresses.tst.internal %}
+{{ipaddresses.alias}}={{ipaddresses.ipaddress}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for ipaddresses in ipaddresses.dev.external %}
+{{ipaddresses.alias}}={{ipaddresses.ipaddress}}
+{% endfor %}
+
+{% for ipaddresses in ipaddresses.dev.internal %}
+{{ipaddresses.alias}}={{ipaddresses.ipaddress}}
+{% endfor %}{% endif %}
+
+[keyfiles]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for keyfiles in keyfiles.prd.google %}
+{{keyfiles.alias}}={{keyfiles.keyfile}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for keyfiles in keyfiles.stg.google %}
+{{keyfiles.alias}}={{keyfiles.keyfile}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for keyfiles in keyfiles.tst.google %}
+{{keyfiles.alias}}={{keyfiles.keyfile}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for keyfiles in keyfiles.dev.google %}
+{{keyfiles.alias}}={{keyfiles.keyfile}}
+{% endfor %}{% endif %}
+
+[limits]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for limits in limits.prd %}
+{{limits.alias}}={{limits.limit}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for limits in limits.stg %}
+{{limits.alias}}={{limits.limit}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for limits in limits.tst %}
+{{limits.alias}}={{limits.limit}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for limits in limits.dev %}
+{{limits.alias}}={{limits.limit}}
+{% endfor %}{% endif %}
+
+[msisdns]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for msisdns in msisdns.prd %}
+{{msisdns.alias}}={{msisdns.msisdn}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for msisdns in msisdns.stg %}
+{{msisdns.alias}}={{msisdns.msisdn}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for msisdns in msisdns.tst %}
+{{msisdns.alias}}={{msisdns.msisdn}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for msisdns in msisdns.dev %}
+{{msisdns.alias}}={{msisdns.msisdn}}
+{% endfor %}{% endif %}
+
+[networks]
+[openvpns]
+[orgs]
+
+[passwords]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for passwords in passwords.prd %}
+{{passwords.alias}}={{passwords.password}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for passwords in passwords.stg %}
+{{passwords.alias}}={{passwords.password}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for passwords in passwords.tst %}
+{{passwords.alias}}={{passwords.password}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+TICKETSEMAILPASSWORD=Us3d@sG3n3r1cS3nd3rMa1lb0x
+
+{% for passwords in passwords.dev %}
+{{passwords.alias}}={{passwords.password}}
+{% endfor %}{% endif %}
+
+[repositories]
+[roots]
+[services]
+
+[specials]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for specials in specials.prd %}
+{{specials.alias}}={{specials.special}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for specials in specials.stg %}
+{{specials.alias}}={{specials.special}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for specials in specials.tst %}
+{{specials.alias}}={{specials.special}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for specials in specials.dev %}
+{{specials.alias}}={{specials.special}}
+{% endfor %}{% endif %}
+
+[ssl]
+
+[timers]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for timers in timers.prd %}
+{{timers.alias}}={{timers.seconds}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for timers in timers.stg %}
+{{timers.alias}}={{timers.seconds}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for timers in timers.tst %}
+{{timers.alias}}={{timers.seconds}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for timers in timers.dev %}
+{{timers.alias}}={{timers.seconds}}
+{% endfor %}{% endif %}
+
+[urls]
+{% if inventory_hostname_short in groups['dev'] %}
+{% for urls in urls.dev %}
+{{urls.alias}}_path={{urls.url}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for urls in urls.stg %}
+{{urls.alias}}_path={{urls.url}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for urls in urls.tst %}
+{{urls.alias}}_path={{urls.url}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for urls in urls.dev %}
+{{urls.alias}}_path={{urls.url}}
+{% endfor %}{% endif %}
+
+[usernames]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for users in usernames.prd.external %}
+{{users.alias}}={{users.username}}
+{% endfor %}
+
+{% for users in usernames.prd.internal %}
+{{users.alias}}={{users.username}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for users in usernames.stg.external %}
+{{users.alias}}={{users.username}}
+{% endfor %}
+
+{% for users in usernames.stg.internal %}
+{{users.alias}}={{users.username}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for users in usernames.tst.external %}
+{{users.alias}}={{users.username}}
+{% endfor %}
+
+{% for users in usernames.tst.internal %}
+{{users.alias}}={{users.username}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for users in usernames.dev.external %}
+{{users.alias}}={{users.username}}
+{% endfor %}
+
+{% for users in usernames.dev.internal %}
+{{users.alias}}={{users.username}}
+{% endfor %}{% endif %}
+
+[users-db]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for users in users_db.prd %}
+{{users.alias}}_user={{users.user}}
+{{users.alias}}_pass={{users.password}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for users in users_db.stg %}
+{{users.alias}}_user={{users.user}}
+{{users.alias}}_pass={{users.password}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for users in users_db.tst %}
+{{users.alias}}_user={{users.user}}
+{{users.alias}}_pass={{users.password}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for users in users_db.dev %}
+{{users.alias}}_user={{users.user}}
+{{users.alias}}_pass={{users.password}}
+{% endfor %}{% endif %}
+
+[webservices]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for webservices in webservices.prd %}
+{{webservices.alias}}_user={{webservices.user}}
+{{webservices.alias}}_pass={{webservices.password}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for webservices in webservices.stg %}
+{{webservices.alias}}_user={{webservices.user}}
+{{webservices.alias}}_pass={{webservices.password}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['tst'] %}
+{% for webservices in webservices.tst %}
+{{webservices.alias}}_user={{webservices.user}}
+{{webservices.alias}}_pass={{webservices.password}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['dev'] %}
+{% for webservices in webservices.dev %}
+{{webservices.alias}}_user={{webservices.user}}
+{{webservices.alias}}_pass={{webservices.password}}
+{% endfor %}{% endif %}
+
+[whitelabels]
+{% if inventory_hostname_short in groups['prd'] %}
+{% for labels in whitelabels.prd %}
+{{labels.alias}}={{labels.label}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for labels in whitelabels.stg %}
+{{labels.alias}}={{labels.label}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for labels in whitelabels.stg %}
+{{labels.alias}}={{labels.label}}
+{% endfor %}{% endif %}
+
+{% if inventory_hostname_short in groups['stg'] %}
+{% for labels in whitelabels.stg %}
+{{labels.alias}}={{labels.label}}
+{% endfor %}{% endif %}
+

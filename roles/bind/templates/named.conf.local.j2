@@ -1,0 +1,37 @@
+// {{ ansible_managed }}
+// Do any local configuration here
+//
+ 
+{% if ansible_default_ipv4.address == infra[0].ipaddress %}
+// # MASTER
+// #FORWARD ZONE NS0
+zone "{{ domains[0].domain }}.{{ tld[0].tld }}" {
+    type master;
+    file "/etc/bind/zones/db.{{ domains[0].domain }}.{{ tld[0].tld }}"; # zone file path
+    allow-transfer { {{ infra[1].ipaddress }}; };  # ns1 private IP address - secondary
+};
+// #REVERSE ZONE NS0
+zone "{{ networks[0].revaddr }}.in-addr.arpa" {
+    type master;
+    file "/etc/bind/zones/db.192.168";  # "{{ networks[0].network }}" subnet
+    allow-transfer { {{ infra[1].ipaddress }}; };  # ns1 private IP address - secondary
+};
+{% endif %}
+
+
+{% if ansible_default_ipv4.address == infra[1].ipaddress %}
+// # MASTER
+// #FORWARD ZONE NS1
+zone "{{ domains[0].domain }}.{{ tld[0].tld }}" {
+    type slave;
+    file "/etc/bind/zones/db.{{ domains[0].domain }}.{{ tld[0].tld }}"; # zone file path
+    masters { {{ infra[0].ipaddress }}; };  # ns0 private IP address - secondary
+};
+// #REVERSE ZONE NS0
+zone "{{ networks[1].revaddr }}.in-addr.arpa" {
+    type master;
+    file "/etc/bind/zones/db.192.168";  # "{{ networks[1].network }}" subnet
+    allow-transfer { {{ infra[0].ipaddress }}; };  # ns0 private IP address - secondary
+};
+{% endif %}
+

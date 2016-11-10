@@ -1,0 +1,70 @@
+---
+# tasks file for apt
+###
+- name: check /etc/apt/sources.list.d exists
+  file: path="/etc/apt/sources.list.d" state=directory
+  
+- name: cleanout sources.list.d
+  file: path="/etc/apt/sources.list.d/*" state=absent
+  
+- name: update sources.list
+  template: src=sources.list.j2 dest=/etc/apt/sources.list
+  
+# DO NOT PUSH A CACH_VALID ON THIS. WE WANT A FULL FORCED UPDATE
+- name: apt-get update
+  apt: update_cache=yes
+
+###
+- name: mariadb-server key add
+  apt_key: keyserver=keyserver.ubuntu.com id=C74CD1D8 state=present
+  when: inventory_hostname in groups.mariadb
+
+- name: mariadb repo add
+  shell: echo 'deb [arch=amd64,i386] http://www.ftp.saix.net/DB/mariadb/repo/10.1/ubuntu xenial main' | tee /etc/apt/sources.list.d/mariadb.list
+  when: inventory_hostname in groups.mariadb
+  notify: apt-get update
+
+###   
+- name: php add ppa
+  apt_repository: repo="ppa:ondrej/php" state=present
+  when: inventory_hostname in groups.apache2
+  notify: apt-get update
+
+###  
+- name: ubiquiti repo add
+  shell: echo 'deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti' | tee /etc/apt/sources.list.d/100-ubnt.list
+  when: inventory_hostname in groups.ubnt
+  
+- name: ubiquiti key add
+  apt_key: keyserver=keyserver.ubuntu.com id=C0A52C50 state=present
+  when: inventory_hostname in groups.ubnt
+  notify: apt-get update
+
+###
+- name: icinga ppa add
+  apt_repository: repo="ppa:formorer/icinga" state=present
+  when: inventory_hostname in groups.icinga
+
+- name: icinga key add
+  apt_key: keyserver=keyserver.ubuntu.com id=36862847 state=present
+  when: inventory_hostname in groups.icinga
+  notify: apt-get update
+  
+###  
+- name: unison ppa add
+  apt_repository: repo="ppa:eugenesan/ppa" state=present
+  when: inventory_hostname in groups.unison
+  notify: apt-get update
+
+###
+# Unattended Upgrades (ALL OFF FOR NOW)
+- name: unattended allowed origins
+  template: src=50unattended-upgrades.j2 
+    dest=/etc/apt/apt.conf.d/50unattended-upgrades
+
+- name: unattended time schedule  (ALL OFF FOR NOW)
+  template: src=10periodic.j2 dest=/etc/apt/apt.conf.d/10periodic
+
+# squid deb proxy discover
+- name: auto discover squid-deb-proxy
+  template: src=30autoproxy.j2 dest=/etc/apt/apt.conf.d/30autoproxy

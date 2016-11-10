@@ -1,0 +1,34 @@
+[prd:children]
+terraco
+vodacom
+jhb_lan_prd
+
+[terraco]
+prd-ppm-ha-0
+# prd-ppm-www-0 DO NOT RUN ANSIBLE HERE. LEAVE HASHED
+prd-ppm-www-2
+prd-ppm-clr-0
+#prd-ppm-clr-2 DO NOT RUN ANSIBLE HERE. LEAVE HASHED
+prd-ppm-file-0
+prd-ppm-sts-0
+prd-ppm-infra-0
+prd-ppm-mail-0
+prd-ppm-voip-0
+
+[vodacom]
+prd-ppm-ha-1
+prd-ppm-www-1
+prd-ppm-clr-1
+prd-ppm-clr-2
+prd-ppm-file-1
+prd-ppm-sts-1
+prd-ppm-infra-1
+prd-ppm-mail-1
+prd-ppm-voip-1
+
+[jhb_lan_prd]
+prd-ppm-ha-jhb
+prd-ppm-www-jhb
+prd-ppm-clr-jhb
+prd-ppm-file-jhb
+prd-ppm-sts-jhb

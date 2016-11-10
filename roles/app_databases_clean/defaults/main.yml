@@ -1,0 +1,20 @@
+---
+# defaults file for app_database_clean
+archive_path: 
+archives:
+  tst:
+  - {name: "audit", backup: "", import: "", export: "",  }
+  - {name: "archive", backup: "", import: "", export: "",  }
+  - {name: "aurora", backup: "", import: "", export: "",  }
+  - {name: "aurorabackup", backup: "", import: "", export: "",  }
+  - {name: "crescendo", backup: "", import: "", export: "",  }
+  - {name: "enbayabackups", backup: "", import: "", export: "",  }
+  - {name: "enbayasts", backup: "", import: "", export: "",  }
+  dev:
+  - {name: "audit", backup: "", import: "", export: "",  }
+  - {name: "archive", backup: "", import: "", export: "",  }
+  - {name: "aurora", backup: "", import: "", export: "",  }
+  - {name: "aurorabackup", backup: "", import: "", export: "",  }
+  - {name: "crescendo", backup: "", import: "", export: "",  }
+  - {name: "enbayabackups", backup: "", import: "", export: "",  }
+  - {name: "enbayasts", backup: "", import: "", export: "",  }

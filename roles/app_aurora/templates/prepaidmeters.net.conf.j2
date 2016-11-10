@@ -1,0 +1,177 @@
+# {{ ansible_managed }}
+
+{% if 'prd' in inventory_hostname %}
+<VirtualHost *:443>
+    ServerAdmin "{{ emails[0].email }}"
+
+    ServerName prepaidmeters.net
+
+    ServerAlias *.prepaidmeters.net
+
+    SetEnv projectname {{ project_name }}
+    SetEnv sqlpassword Xfb574lU
+    SetEnv rootpath {{ folders[1].path }}
+    SetEnv constantsfile {{ project_path }}/trunk/includes/incgenericincludes.php
+
+    SSLEngine on
+    SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
+    SSLCertificateFile /etc/apache2/ssl/prepaidmeters.net.20141021.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/prepaidmeters.net.20141021.key
+    SSLCACertificateFile /etc/apache2/ssl/intermediate.20141021.crt
+    SSLOptions +FakeBasicAuth +ExportCertData +StrictRequire
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+    DocumentRoot {{ folders[1].path }}
+    DirectoryIndex index.php
+
+    <Directory />
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+    <Directory "/usr/lib/cgi-bin">
+        AllowOverride None
+        Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+
+    # Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
+    LogLevel error
+
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    Alias /doc/ "/usr/share/doc/"
+    <Directory "/usr/share/doc/">
+        Options Indexes MultiViews FollowSymLinks
+        AllowOverride None
+        Order deny,allow
+        Deny from all
+        Allow from 127.0.0.0/255.0.0.0 ::1/128
+    </Directory>
+
+</VirtualHost>
+{% else %}
+<VirtualHost *:80>
+    ServerAdmin "{{ emails[0].email }}"
+
+    ServerName prepaidmeters.net.{{ tld[0].tld }}
+
+    ServerAlias *.prepaidmeters.net.{{ tld[0].tld }}
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^([^\.]+)$ $1.php [NC,L]
+    RewriteCond %{HTTPS} off
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+    HostnameLookups on
+
+    SetEnv rootpath {{ folders[1].path }}
+    SetEnv projectname {{ project_name }}
+    SetEnv sqlpassword Xfb574lU
+
+    DocumentRoot {{ folders[1].path }}
+
+    DirectoryIndex index.php
+
+    <Directory />
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+    <Directory "/usr/lib/cgi-bin">
+        AllowOverride None
+        Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+
+    # Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
+    LogLevel error
+
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    Alias /doc/ "/usr/share/doc/"
+    <Directory "/usr/share/doc/">
+        Options Indexes MultiViews FollowSymLinks
+        AllowOverride None
+        Order deny,allow
+        Deny from all
+        Allow from 127.0.0.0/255.0.0.0 ::1/128
+    </Directory>
+
+    <Files ~ "^\.ht">
+        Order allow,deny
+        Deny from all   
+    </Files>
+
+    <Files ~ "\.inc">
+        Order allow,deny
+        Deny from all   
+    </Files>
+
+    <Files ~ "\.sql">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "\.sh">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "\.pl">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "\.zip">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "\.gz">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "\.tar">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "~">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "werks">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "git">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files *.ini>
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "zzz">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "bak">
+        Order allow,deny
+        Deny from all   
+    </Files>
+</VirtualHost>
+{% endif %}

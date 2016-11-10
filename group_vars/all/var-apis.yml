@@ -1,0 +1,15 @@
+## YAML Template.
+---
+apis:
+  prd:
+  - {alias: "clickatell_za", apiid: "{{ clickatell_za_apiid }}", user: "{{ clickatell_za_user }}", password: "{{ clickatell_za_pass }}"}
+  - {alias: "clickatell_au", apiid: "{{ clickatell_au_apiid }}", user: "{{ clickatell_au_user }}", password: "{{ clickatell_au_pass }}"}
+  stg:
+  - {alias: "clickatell_za", apiid: "{{ clickatell_za_apiid }}", user: "{{ clickatell_za_user }}", password: "{{ clickatell_za_pass }}"}
+  - {alias: "clickatell_au", apiid: "{{ clickatell_au_apiid }}", user: "{{ clickatell_au_user }}", password: "{{ clickatell_au_pass }}"}
+  tst:
+  - {alias: "clickatell_au", apiid: "{{ clickatell_za_apiid }}", user: "{{ clickatell_za_user }}", password: "{{ clickatell_za_pass }}"}
+  - {alias: "clickatell_au", apiid: "{{ clickatell_au_apiid }}", user: "{{ clickatell_au_user }}", password: "{{ clickatell_au_pass }}"}
+  dev:
+  - {alias: "clickatell_za", apiid: "{{ clickatell_za_apiid }}", user: "{{ clickatell_za_user }}", password: "{{ clickatell_za_pass }}"}
+  - {alias: "clickatell_au", apiid: "{{ clickatell_au_apiid }}", user: "{{ clickatell_au_user }}", password: "{{ clickatell_au_pass }}"}

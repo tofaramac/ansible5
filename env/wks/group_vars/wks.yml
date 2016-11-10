@@ -1,0 +1,75 @@
+## YAML Template.
+---
+tld: "local"
+
+debug: 1
+cluster_name: "{{strata}}-ppm-clr"
+
+users:
+- {count: '0', username: 'netadmin', user_full: 'ppm systems', user_email: 'systems@prepaidmeters.com', groups: 'sudo',
+   shell: '/bin/bash', sshkey_pvt: '{{ netadmin_id_rsa }}', sshkey_pub: '{{ netadmin_id_rsa_pub }}'
+    }
+- {count: '1', username: 'sean', user_full: 'Sean Wheller', user_email: 'sean@prepaidmeters.com', groups: 'sudo',
+   shell: '/bin/bash', sshkey_pvt: '{{ sean_id_rsa }}', sshkey_pub: '{{ sean_id_rsa_pub }}'
+    }
+- {count: '2', username: 'tofara', user_full: 'Tofara Machemedze', user_email: 'tofara@prepaidmeters.com', groups: 'sudo',
+   shell: '/bin/bash', sshkey_pvt: '{{ tofara_id_rsa }}', sshkey_pub: '{{ tofara_id_rsa_pub }}'
+    }
+- {count: '3', username: 'andries', user_full: 'Andries Esterhuizen', user_email: 'andries@prepaidmeters.com', groups: 'sudo',
+   shell: '/bin/bash', sshkey_pvt: '{{ andries_id_rsa }}', sshkey_pub: '{{ andries_id_rsa_pub }}'
+    }
+
+networks:
+- {count: '0', network: '192.168.1.0', netmask: '255.255.255.0', gateway: '192.168.1.254', broadcast: '192.168.1.255' }
+- {count: '1', network: '192.168.3.0', netmask: '255.255.255.0', gateway: '192.168.3.254', broadcast: '192.168.3.255' }
+
+dns:
+- {count: '00', alias: "google_1_dns", ipaddress: "8.8.8.8"}
+- {count: '01', alias: "google_2_dns", ipaddress: "8.8.4.4"}
+
+fqdn:
+- {count: '0', domain: "{{ subdomains }}.{{ strata }}[0].domain.{{ subdomains }}.{{ strata }}[0].domain }}.{{ tld }}.{{ strata }}[0].tld"}
+- {count: '1', domain: "{{ subdomains }}.{{ strata }}[1].domain.{{ subdomains }}.{{ strata }}[0].domain }}.{{ tld }}.{{ strata }}[0].tld"}
+
+subdomains:
+- {count: '0', domain: "www"}
+- {count: '1', domain: "mail"}
+
+domains:
+- {count: '0', domain: "prepaidmeters"}
+
+tld::
+- {count: '0', tld: ".local"}
+  
+folders:
+- {count: "0", alias: "crescendo_folder", path: "/var/www/crescendo/webroot/webroot"}
+- {count: "1", alias: "aurora_folder", path: "/var/www/aurora/"}
+- {count: "2", alias: "erp_folder", path: "/var/www/erp/"}
+- {count: "3", alias: "generic_folder", path: "/var/www/generic/"}
+- {count: "4", alias: "blank", path: "blank"}
+- {count: "5", alias: "blank", path: "blank"}
+- {count: "6", alias: "blank", path: "blank"}
+- {count: "7", alias: "documents_folder", path: "/mnt/nfs/var/nfs/prd-ppm-www-0/documents/trunk/"}
+- {count: "8", alias: "documentsdynamic_folder", path: "/mnt/nfs/var/nfs/prd-ppm-www-0/documentsdynamic/"}
+- {count: "9", alias: "devdatabasedestination_folder", path: "/var/www/generic/databasesamples/"}
+- {count: "10", alias: "temp_folder", path: "/tmp/"}
+- {count: "11", alias: "enbayacronrootlogdir_folder", path: "/var/log/enbaya/"}
+- {count: "12", alias: "rsync_folder", path: "/run/ppm/"}
+- {count: "13", alias: "backup_folder", path: "/var/backups/mysql/"}
+- {count: "14", alias: "backuprestore_folder", path: "/var/backups/mysql/work/"}
+- {count: "15", alias: "databasebackup_folder", path: "/var/rsync/db/"}
+- {count: "16", alias: "devdatabasework_folder", path: "${devdatabasedestination_folder}/work/"}
+- {count: "17", alias: "pathtovoicerecordings_folder", path: "/var/tmp"}
+- {count: "18", alias: "impactftpdirectory_folder", path: "prepaid/"}
+- {count: "19", alias: "devdocs_folder", path: "/opt/devdocs"}
+- {count: "20", alias: "enbayasts_folder", path: "/var/www/enbayasts"}
+- {count: "21", alias: "tcpdf_folder", path: "/var/www/tcpdf"}
+- {count: "22", alias: "sugarcrm_folder", path: "/var/www/sugarcrm"}
+- {count: "23", alias: "ppmwebsite_folder", path: "/var/www/ppmwebsite"}
+- {count: "24", alias: "geo_folder", path: "/var/www/geo/"}
+
+#emails:
+
+smtp:
+- {alias: "ppm_smtp", host: "mail.prepaidmeters.co.za", port: "25", user: "{{ ppm_smtp_user }}", password: "{{ ppm_smtp_pass }}", crypt: "tls", auth: "True"}
+

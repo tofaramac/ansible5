@@ -1,0 +1,6 @@
+---
+# defaults file for enbaya-sts
+project_name: enbayasts
+enbayasts_version: 1.3.0
+enbayasts_rc: 2
+enbayasts_arch: amd64

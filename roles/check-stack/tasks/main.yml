@@ -1,0 +1,49 @@
+---
+# tasks file for check-stack
+- name: haproxy status
+  service: name=haproxy state=running enable=true
+  when: inventory_name in groups.haproxy
+  
+- name: apache2 status
+  service: name=apache2 state=running enable=true
+  when: inventory_name in groups.apache2
+  
+- name: mariadb status
+  service: name=mariadb state=running enable=true
+  when: inventory_name in groups.mariadb
+
+
+- name: ensure haproxy ports open
+  wait_for: host={{ inventory_hostname }} port={{ item }} timeout={{ timeout }}
+  with_items:
+    - {{ haproxy[0].front_port }}
+    - {{ haproxy[0].back_port }}  
+  delegate_to: localhost
+  when: inventory_name in groups.haproxy
+
+- name: ensure apache2 open
+  wait_for: host={{ inventory_hostname }} port={{ item }} timeout={{ timeout }}
+  with_items:
+    - {{ apache2[0].port }}
+    - {{ apache2[0].ssl }}
+  delegate_to: localhost
+  when: inventory_name in groups.apache2
+
+- name: ensure mariadb ports open
+  wait_for: host={{ inventory_hostname }} port={{ item }} timeout={{ timeout }}
+  with_items: 
+    - {{ mariadb[0].port }}
+    - {{ mariadb[0].gcomm }}
+    - {{ mariadb[0].ist }}
+    - {{ mariadb[0].sst }}
+  delegate_to: localhost
+  when: inventory_name in groups.mariadb
+
+- name: verify end-to-end http response
+  uri: url=http://{{item}} return_content=yes
+  with_items: "{{ groups.haproxy }}"
+  register: page_index
+
+- fail: msg="failed to return content"
+  when: "'Apache2 Ubuntu Default Page' not in item.content"
+  with_items: "{{page_index.results}}"

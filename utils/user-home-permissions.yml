@@ -1,0 +1,44 @@
+## YAML Template.
+---
+- hosts: '{{ target }}'
+  become: true
+  tasks:
+  - name: ensure home permissions (0755)
+    command: find /home/{{ user }} -type d -exec chmod -c 0755 {} \;
+
+  - name: ensure .ssh permissions (0700)
+    command: find /home/{{ user }}/.ssh -type d -exec chmod -c 0700 {} \;
+
+  - name: ensure all files (0644)
+    command: find /home/{{ user }} -type f -exec chmod -c 0644 {} \;
+
+  - name: ensure all .ssh keys (0600)
+    command: find /home/{{ user }}/.ssh -type f -exec chmod -c 0600 {} \;
+  
+  - name: check if crescendo tmp exists
+    stat: path=/home/{{ user }}/project/crescendo/tmp
+    register: crescendo_tmp
+
+  - name: ensure crescendo tmp folder (0777)
+    command: find /home/{{ user }}/project/crescendo/tmp -type d -exec chmod -c 0777 {} \;
+#    when: crescendo_tmp.stat.exists == true
+  
+  - name: ensure crescendo tmp folder (0777)
+    command: find /home/{{ user }}/project/crescendo/tmp -type d -exec chmod -c 0777 {} \;
+    
+  - name: ensure crescendo bin/cake files (0744)
+    command: find /home/{{ user }}/project/crescendo/bin/cake -type f -exec chmod -c 0744 {} \;
+#    when: crescendo_tmp.stat.exists == true
+
+  - name: ensure crescendo bin/cake folder (0744)
+    command: find /home/{{ user }}/project/crescendo/bin/cake -type d -exec chmod -c 0744 {} \;
+    
+  - name: ensure devdocs permissions (0755)
+    command: find /home/{{ user }}/project/devdocs -type d -exec chmod -c 0755 {} \;
+    ignore_errors: yes
+    
+  - name: ensure devdocs file permissions (0775)
+    command: find /home/{{ user }}/project/devdocs/trunk -type f -exec chmod -c 0775 {} \;
+    ignore_errors: yes
+    
+

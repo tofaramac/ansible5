@@ -1,0 +1,18 @@
+---
+# tasks file for ha-proxy
+- name: haproxy install
+  apt: name=haproxy state=present update_cache=yes cache_valid_time=86400
+  when: inventory_hostname in groups.haproxy
+
+- name: haproxy on startup
+  template: src=haproxy.j2 dest=/etc/default/haproxy
+  when: inventory_hostname in groups.haproxy
+  
+- name: haproxy config
+  template: src=haproxy.cfg.j2 dest=/etc/haproxy/haproxy.cfg
+  when: inventory_hostname in groups.haproxy
+  notify: haproxy restart
+  
+- name: haproxy status
+  service: name=haproxy state=running enabled=true
+  when: inventory_hostname in groups.haproxy

@@ -1,0 +1,3 @@
+---
+# defaults file for apt
+apt_archive: us.archive.ubuntu.com

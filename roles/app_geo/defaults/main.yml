@@ -1,0 +1,5 @@
+---
+# defaults file for app_geo
+project_name: geo
+
+project_path: "/var/www/{{ project_name }}"

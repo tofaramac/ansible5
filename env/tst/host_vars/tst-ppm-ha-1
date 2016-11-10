@@ -1,0 +1,12 @@
+hostname: "{{ haproxy[1].hostname }}"
+ansible_ssh_host: "{{ haproxy[1].ipaddress }}"
+ip_allocation: "{{ haproxy[1].ipallocation }}"
+ext_nat: "{{ haproxy[1].ext_nat }}"
+
+mntserver: "{{ mounts[1].mntserver }}"
+mntserverip: "{{ mounts[1].mntserverip }}"
+mnttarget: "{{ mounts[1].mnttarget }}"
+mountpoint: "{{ mounts[1].mntpoint }}"
+mnttype: "{{ mounts[1].mnttype }}"
+
+rsyslogserver: "{{ infra[1].ipaddress }}"

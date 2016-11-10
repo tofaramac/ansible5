@@ -1,0 +1,11 @@
+---
+# defaults file for app_documents
+project_name: documents
+
+project_path: "/var/nfs"
+
+project_repo: "{{ github[10].repo }}"
+
+apache_hostnames:
+  - "{{ apache2[0].hostname }}"
+  - "{{ apache2[1].hostname }}"

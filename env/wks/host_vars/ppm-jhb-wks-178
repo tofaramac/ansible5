@@ -1,0 +1,22 @@
+ansible_ssh_host: 192.168.1.178
+hostname: "{{ hostname }}"
+mac: 10:78:d2:d3:99:ec
+
+user: nosiphesihle
+user_first_surname: "Nosiphesihle Thomo"
+user_email: nosiphesihle@prepaidmeters.com
+user_appended_groups: www-data
+
+user_projects: [crescendo, documents, documentsdynamic]
+
+resolv: local
+
+#jhb lan
+jhb_network: 192.168.1.0
+netmask: 255.255.255.0
+gateway: 192.168.1.254
+broadcast: 192.168.1.255
+dns_nameservers: 8.8.8.8 8.8.4.4 192.168.1.29
+
+# firewall
+external_map: none

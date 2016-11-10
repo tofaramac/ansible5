@@ -1,0 +1,297 @@
+# {{ ansible_managed }}
+#
+{% if ansible_default_ipv4.network == '192.168.1.0' %}
+ddns-updates on;
+ddns-update-style interim;
+update-static-leases on;
+allow unknown-clients;
+use-host-decl-names on;
+default-lease-time 1200;
+max-lease-time 7200;
+authoritative;
+log-facility local7;
+
+key "rndc-key" {
+	algorithm hmac-md5;
+	secret "z7H9desctnyZTIQfZWzldw==";
+};
+
+zone prepaidmeters.local. {  
+    primary 192.168.1.29; # This server is the primary DNS server for the zone
+    key rndc-key; # Use the key we defined earlier for dynamic updates
+}
+zone 1.168.192.in-addr.arpa. {  
+    primary 192.168.1.29; # This server is the primary DNS server for the zone
+    key rndc-key; # Use the key we defined earlier for dynamic updates
+}
+
+subnet {{ ansible_default_ipv4.network }} netmask {{ ansible_default_ipv4.netmask }} {
+  range 192.168.1.160 192.168.1.169; 
+  option subnet-mask {{ ansible_default_ipv4.netmask }};
+  option broadcast-address {{ ansible_default_ipv4.broadcast }};
+  option routers {{ ansible_default_ipv4.gateway }};
+  option domain-name-servers {{ hosts.infra.bind[0].ipaddress }};
+  option domain-name "{{ domains.infra[0].domain }}";
+  option ntp-servers {{ hosts.infra.ntp[0].ipaddress  }}, {{ hosts.infra.ntp[0].ipaddress }};
+  ddns-domainname "{{ domains.infra[0].domain }}.";
+  ddns-rev-domainname "in-addr.arpa.";
+}
+
+# printers-jhb
+{% for host in groups['printers']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+
+# switches-jhb
+{% for host in groups['switches']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+
+# network-storage
+{% for host in groups['storage']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+
+# prd-jhb
+{% for host in groups['prd']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+
+# infra-servers-jhb
+{% for host in groups['infra_servers_jhb']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+
+# sms
+{% for host in groups['sms']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+
+# field-services
+{% for host in groups['wks']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+
+
+
+
+# development-vm
+{% for host in groups['dev_srv']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+
+# sip-jhb
+{% for host in groups['sip']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+
+# PXE config (network booting)
+allow booting;
+allow bootp;
+option option-128 code 128 = string;
+option option-129 code 129 = text;
+next-server {{ hosts.infra.pxe[0].ipaddress }};
+filename "pxelinux.0";
+{% endif%}
+
+
+{% if ansible_default_ipv4.network == '192.168.3.0' %}
+ddns-updates on;
+ddns-update-style interim;
+update-static-leases on;
+allow unknown-clients;
+use-host-decl-names on;
+default-lease-time 1200;
+max-lease-time 7200;
+authoritative;
+log-facility local7;
+
+key "rndc-key" {
+	algorithm hmac-md5;
+	secret "GV3YqUm0DzaTBMq/navN6Q==";
+};
+
+zone prepaidmeters.local. {  
+    primary 192.168.3.20; # This server is the primary DNS server for the zone
+    key rndc-key; # Use the key we defined earlier for dynamic updates
+}
+zone 3.168.192.in-addr.arpa. {  
+    primary 192.168.3.20; # This server is the primary DNS server for the zone
+    key rndc-key; # Use the key we defined earlier for dynamic updates
+}
+
+subnet {{ ansible_default_ipv4.network }} netmask {{ ansible_default_ipv4.netmask }} {
+range 192.168.3.50 192.168.3.55; 
+  option subnet-mask {{ ansible_default_ipv4.netmask }};
+  option broadcast-address {{ ansible_default_ipv4.broadcast }};
+  option routers {{ ansible_default_ipv4.gateway }};
+  option ntp-servers {{ hosts.infra.ntp[0].ipaddress }}, {{ hosts.infra.ntp[0].ipaddress }};
+  option domain-name "{{ domains.infra[0].domain }}";
+  option domain-name-servers {{ hosts.infra.bind[1].ipaddress }};
+  ddns-domainname "{{ domains.infra[0].domain }}.";
+  ddns-rev-domainname "in-addr.arpa.";
+}
+# access points
+{% for host in groups['ap_dbn']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+# printers
+{% for host in groups['printers_dbn']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+# switches
+{% for host in groups['switches']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+# gsm
+{% for host in groups['gsm']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+# ops servers
+{% for host in groups['ops_srv']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+# durban
+{% for host in groups['wks_dbn']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+# sip-dbn
+{% for host in groups['sip_dbn']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+# PXE config (network booting)
+allow booting;
+allow bootp;
+option option-128 code 128 = string;
+option option-129 code 129 = text;
+next-server {{ hosts.infra.pxe[1].ipaddress }};
+filename "pxelinux.0";
+{% endif %}
+
+{% if ansible_default_ipv4.network == '192.168.20.0' %}
+ddns-updates on;
+ddns-update-style interim;
+update-static-leases on;
+allow unknown-clients;
+use-host-decl-names on;
+default-lease-time 1200;
+max-lease-time 7200;
+authoritative;
+log-facility local7;
+
+subnet {{ ansible_default_ipv4.network }} netmask {{ ansible_default_ipv4.netmask }} {
+  range 192.168.20.10 192.168.20.252; 
+  option subnet-mask {{ ansible_default_ipv4.netmask }};
+  option broadcast-address {{ ansible_default_ipv4.broadcast }};
+  option routers {{ ansible_default_ipv4.gateway }};
+  option domain-name-servers { hosts.infra.bind[1].ipaddress };
+  option domain-name "{ domains.infra[0].domain }";
+  option ntp-servers { hosts.infra.ntp[0].ipaddress}, { hosts.infra.ntp[0].ipaddress};
+}
+# ubnt-wifi-jhb
+{% for host in groups['ubnt_wifi_jhb']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}";}
+{% endfor%}
+# televisions
+{% for host in groups['televisions']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+# gsm
+{% for host in groups['gsm_jhb']%}
+host {{ hostvars[host]['inventory_hostname_short'] }} { hardware ethernet {{ hostvars[host].mac }}; fixed-address {{ hostvars[host].ansible_ssh_host }}; ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";}
+{% endfor%}
+{% endif %}
+
+{% if ansible_default_ipv4.network == '192.168.22.0' %}
+ddns-updates on;
+ddns-update-style interim;
+update-static-leases on;
+#allow unknown-clients;
+use-host-decl-names on;
+authoritative;
+log-facility local7;
+
+# terraco subnet
+subnet {{ terraco_network }} netmask {{ terraco_netmask }} {
+  range 192.168.21.10 192.168.21.99; 
+  option subnet-mask {{ terraco_netmask }};
+  option broadcast-address {{ terraco_broadcast }};
+  option routers {{ terraco_gateway }};
+  option domain-name-servers 8.8.8.8;
+  option domain-name "prepaidmeters.local.";  
+  option ntp-servers {{ hosts.infra.ntp[0].ipaddress  }}, {{ hosts.infra.ntp[0].ipaddress }};
+
+  default-lease-time 86400;
+  max-lease-time 86400;
+
+# infra_servers_farm_terraco 192.168.21.1 - 192.168.21.9 
+{% for host in groups['infra_servers_farm_terraco']%}
+  host {{ hostvars[host]['inventory_hostname_short'] }} {
+   hardware ethernet {{ hostvars[host].mac }}; 
+   fixed-address {{ hostvars[host].ansible_ssh_host }}; 
+   ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";
+  }
+{% endfor %}
+
+# START OF VM GUESTS
+# tst-jhb 192.168.21.100 - 192.168.21.19
+{% for host in groups['tst_terraco']%}
+  host {{ hostvars[host]['inventory_hostname_short'] }} {
+   hardware ethernet {{ hostvars[host].mac }}; 
+   fixed-address {{ hostvars[host].ansible_ssh_host }}; 
+   ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";
+  }
+{% endfor %}
+
+# stg-jhb 192.168.21.200 - 192.168.21.253
+{% for host in groups['stg_terraco']%} 
+  host {{ hostvars[host]['inventory_hostname_short'] }} {
+   hardware ethernet {{ hostvars[host].mac }}; 
+   fixed-address {{ hostvars[host].ansible_ssh_host }}; 
+   ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";
+  }
+{% endfor %}
+}
+
+# vodacom subnet
+subnet {{ vodacom_network }} netmask {{ vodacom_netmask }} {
+  range 192.168.22.10 192.168.22.99; 
+  option subnet-mask {{ vodacom_netmask }};
+  option broadcast-address {{ vodacom_broadcast }};
+  option routers {{ vodacom_gateway }};
+  option domain-name-servers 8.8.8.8;
+  option domain-name "prepaidmeters.local.";  
+  option ntp-servers {{ hosts.infra.ntp[0].ipaddress  }}, {{ hosts.infra.ntp[0].ipaddress }};
+
+  default-lease-time 86400;
+  max-lease-time 86400;
+
+# infra_servers_farm_vodacom 192.168.22.1 - 192.168.22.99
+{% for host in groups['infra_servers_farm_vodacom']%}
+  host {{ hostvars[host]['inventory_hostname_short'] }} {
+   hardware ethernet {{ hostvars[host].mac }}; 
+   fixed-address {{ hostvars[host].ansible_ssh_host }}; 
+   ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";
+  }
+{% endfor %}
+
+# START OF VM GUESTS
+# tst-jhb 192.168.22.100 - 192.168.22.199
+{% for host in groups['tst_vodacom']%} 
+  host {{ hostvars[host]['inventory_hostname_short'] }} {
+   hardware ethernet {{ hostvars[host].mac }}; 
+   fixed-address {{ hostvars[host].ansible_ssh_host }}; 
+   ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";
+  }
+{% endfor %}
+
+# stg-jhb 192.168.22.200 - 192.168.22.253
+{% for host in groups['stg_vodacom']%} 
+  host {{ hostvars[host]['inventory_hostname_short'] }} {
+   hardware ethernet {{ hostvars[host].mac }}; 
+   fixed-address {{ hostvars[host].ansible_ssh_host }}; 
+   ddns-hostname "{{ hostvars[host].inventory_hostname_short }}";
+  }
+{% endfor %}
+}
+{% endif %}

@@ -1,0 +1,16 @@
+## YAML Template.
+---
+- hosts: '{{ target }}'
+  become: true
+  gather_facts: true
+  serial: 2
+  vars_files:
+  - "env/{{ strata }}/group_vars/{{ strata }}.yml""
+  roles:
+  - network
+  - apt
+  - users
+  - bash
+  - wks
+  - python
+  - nrpe-agent

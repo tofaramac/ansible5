@@ -1,0 +1,28 @@
+## YAML Template.
+---
+ansible_ssh_host: 192.168.1.90
+kvm_host: 192.168.1.188
+ppm_env: dev
+hostname: "{{ hostname }}"
+
+mac: 52:54:00:f0:6a:0e
+
+user: stephan
+user_first_surname: "Stephan Bester"
+user_email: steph@prepaidmeters.com
+user_appended_groups:
+  - {group: "sudo"} 
+  - {group: "www-data"}
+  
+user_projects: [crescendo, documents, documentsdynamic]
+
+# network
+network: 192.168.1.0
+netmask: 255.255.255.0
+gateway: 192.168.1.1
+broadcast: 192.168.1.255
+dns_nameservers: 8.8.8.8 8.8.4.4 41.87.234.77
+
+# firewall
+external_map: none
+

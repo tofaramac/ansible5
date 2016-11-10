@@ -1,0 +1,27 @@
+---
+# tasks file for netbeans-ide
+- name: create (download) directory
+  file: path="{{ netbeans_ide_downloads_path }}" state=directory owner=root
+    group=root mode=0755
+  when: inventory_hostname in groups.dev or in groups.ops
+
+- name: netbeans download
+  get_url: url="http://download.netbeans.org/netbeans/{{netbeans_ide_version}}/final/bundles/netbeans-{{netbeans_ide_version}}-{{netbeans_ide_bundle}}-linux-{{netbeans_ide_arch}}.sh" 
+    dest="{{ netbeans_ide_downloads_path }}/netbeans-{{netbeans_ide_version}}-{{netbeans_ide_bundle}}-linux-{{netbeans_ide_arch}}.sh" owner=root 
+    group=root mode=0755
+  register: download
+  when: inventory_hostname in groups.dev or in groups.ops
+  
+- name: create state file
+  copy: src="{{ netbeans_ide_state_file | default('state.xml') }}" 
+    dest="{{ netbeans_ide_downloads_path }}/state.xml" 
+    owner=root group=root mode=0644
+  register: create_state_file
+  when: inventory_hostname in groups.dev or in groups.ops
+  
+- name: netbeans install
+  command: ./netbeans-{{netbeans_ide_version}}-{{netbeans_ide_bundle}}-linux-{{netbeans_ide_arch}}.sh --silent --state ./state.xml
+  args: 
+    chdir: "{{ netbeans_ide_downloads_path }}"
+  when: download | changed or create_state_file | changed and inventory_hostname in groups.dev or in groups.ops
+

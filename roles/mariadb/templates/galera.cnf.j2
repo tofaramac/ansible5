@@ -1,0 +1,29 @@
+# {{ ansible_managed }}
+#
+{% if inventory_hostname in groups.mariadb %}
+#
+# * Galera-related settings
+#
+[galera]
+# Mandatory settings
+wsrep_on=ON
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+
+wsrep_cluster_address="gcomm://{% for host in groups.mariadb %}{{ hostvars[host]['ansible_ssh_host']|join("")}}{% if not loop.last %},{% endif %}
+{% endfor %}"
+
+# Optional setting
+wsrep_slave_threads=8
+innodb_flush_log_at_trx_commit=0
+wsrep_provider_options="gcache.size=300M; gcache.page_size=300M"
+wsrep_sst_method=rsync
+#wsrep_sst_method=xtrabackup-v2
+wsrep_cluster_name={{ cluster_name }}
+
+wsrep_sst_auth="{{ users_db[2].user }}:{{ users_db[2].password }}"
+
+wsrep_node_name="{{ inventory_hostname }}"
+wsrep_node_address="{{ ansible_default_ipv4.address }}"
+{% else %}
+# galera not enabled
+{% endif %}

@@ -1,0 +1,3 @@
+hostname: "{{ hosts.stg.haproxy[0].hostname }}"
+ansible_ssh_host: "{{ hosts.stg.haproxy[0].ipaddress }}"
+ext_nat: "{{ hosts.stg.haproxy[0].ext_nat }}"

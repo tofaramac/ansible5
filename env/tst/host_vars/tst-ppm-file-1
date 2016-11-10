@@ -1,0 +1,13 @@
+hostname: "{{ file[1].hostname }}"
+ansible_ssh_host: "{{ file[1].ipaddress }}"
+ip_allocation: "{{ file[1].ipallocation }}"
+ext_nat: "{{ file[1].ext_nat }}"
+
+# mounts NAS
+mntserver: "{{ nasmounts[0].mntserver }}"
+mntserverip: "{{ nasmounts[0].mntserverip }}"
+mnttarget: "{{ nasmounts[0].mnttarget }}"
+mountpoint: "{{ nasmounts[0].mntpoint }}"
+mnttype: "{{ nasmounts[0].mnttype }}"
+
+rsyslogserver: "{{ infra[1].ipaddress }}"

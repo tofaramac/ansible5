@@ -1,0 +1,10 @@
+---
+# handlers file for mariadb-server
+- name: mariadb start
+  service: name=mariadb state=started
+  
+- name: mariadb stop
+  service: name=mariadb state=stopped
+  
+- name: mariadb restart
+  service: name=mariadb state=restarted

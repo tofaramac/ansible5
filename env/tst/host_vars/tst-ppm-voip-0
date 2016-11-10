@@ -1,0 +1,12 @@
+hostname: "{{ voip[0].hostname }}"
+ansible_ssh_host: "{{ voip[0].ipaddress }}"
+ip_allocation: "{{ voip[0].ipallocation }}"
+ext_nat: "{{ voip[0].ext_nat }}"
+
+mntserver: "{{ mounts[0].mntserver }}"
+mntserverip: "{{ mounts[0].mntserverip }}"
+mnttarget: "{{ mounts[0].mnttarget }}"
+mountpoint: "{{ mounts[0].mntpoint }}"
+mnttype: "{{ mounts[0].mnttype }}"
+
+rsyslogserver: "{{ infra[0].ipaddress }}"

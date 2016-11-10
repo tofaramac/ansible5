@@ -1,0 +1,9 @@
+## YAML Template.
+---
+- hosts: '{{ target }}'
+  become: true
+  roles:
+    - mariadb-server
+    - app_databases
+    - rabbitmq
+    - app_enbaya_sts_install

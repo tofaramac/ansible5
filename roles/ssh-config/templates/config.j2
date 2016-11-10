@@ -1,0 +1,14 @@
+host github.com
+ HostName github.com
+ IdentityFile /home/netadmin/.ssh/id_rsa
+ User git
+
+{% for host in hosts.prd.%}
+host {{ hosts.*.*.hostname }}
+ HostName {{ hosts.*.*.hostname }}
+ PreferredAuthentications publickey
+ IdentityFile /home/{{ users_admin.username }}/.ssh/{{ users_admin.username }}_id_rsa
+ Port 201
+ User {{ users_admin.username }}
+{% endfor %}
+{

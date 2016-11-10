@@ -1,0 +1,3 @@
+hostname: "{{ hosts.stg.voip[1].hostname }}"
+ansible_ssh_host: "{{ hosts.stg.voip[1].ipaddress }}"
+ext_nat: "{{ hosts.stg.voip[1].ext_nat }}"

@@ -1,0 +1,174 @@
+## YAML Template.
+---
+tag: 0
+
+cluster_name: "{{strata}}-ppm-clr"
+
+users:
+- {count: '0', username: 'netadmin', user_full: 'ppm systems', user_email: 'systems@prepaidmeters.com', groups: 'sudo',
+   shell: '/bin/bash', sshkey_pvt: '{{ netadmin_id_rsa }}', sshkey_pub: '{{ netadmin_id_rsa_pub }}'
+    }
+- {count: '1', username: 'sean', user_full: 'Sean Wheller', user_email: 'sean@prepaidmeters.com', groups: 'sudo',
+   shell: '/bin/bash', sshkey_pvt: '{{ sean_id_rsa }}', sshkey_pub: '{{ sean_id_rsa_pub }}'
+    }
+- {count: '2', username: 'tofara', user_full: 'Tofara Machemedze', user_email: 'tofara@prepaidmeters.com', groups: 'sudo',
+   shell: '/bin/bash', sshkey_pvt: '{{ tofara_id_rsa }}', sshkey_pub: '{{ tofara_id_rsa_pub }}'
+    }
+- {count: '3', username: 'andries', user_full: 'Andries Esterhuizen', user_email: 'andries@prepaidmeters.com', groups: 'sudo',
+   shell: '/bin/bash', sshkey_pvt: '{{ andries_id_rsa }}', sshkey_pub: '{{ andries_id_rsa_pub }}'
+    }
+
+networks:
+- {count: '0', network: '192.168.21.0', revaddr: '168.192', netmask: '255.255.255.0', gateway: '192.168.21.254', broadcast: '192.168.21.255' }
+- {count: '1', network: '192.168.22.0', revaddr: '168.192', netmask: '255.255.255.0', gateway: '192.168.22.254', broadcast: '192.168.22.255' }
+
+dns:
+- {count: '0', alias: "google_1_dns", ipaddress: "8.8.8.8"}
+- {count: '1', alias: "google_2_dns", ipaddress: "8.8.4.4"}
+
+fqdn:
+- {count: '0', domain: "subdomains.{{ strata }}[0].domain.subdomains.{{ strata }}[0].domain.{{ tld }}.{{ strata }}[0].tld"}
+- {count: '1', domain: "subdomains.{{ strata }}[1].domain.subdomains.{{ strata }}[0].domain.{{ tld }}.{{ strata }}[0].tld"}
+
+subdomains:
+- {count: '0', domain: "www"}
+- {count: '1', domain: "mail"}
+
+domains:
+- {count: '0', domain: "prepaidmeters"}
+
+tld:
+- {count: '0', tld: "test"}
+
+#hosts
+haproxy:
+- {count: '0', hostname: 'tst-ppm-ha-0', ipaddress: '192.168.21.100', revaddr: '100', mac: '52:54:00:58:21:00', ipallocation: 'static',  ext_nat: 'none'}
+- {count: '1', hostname: 'tst-ppm-ha-1', ipaddress: '192.168.22.100', revaddr: '100', mac: '52:54:00:58:22:00', ipallocation: 'static',  ext_nat: 'none'}
+apache2:
+- {count: '0', hostname: 'tst-ppm-www-0', ipaddress: '192.168.21.101', revaddr: '101', mac: '52:54:00:58:21:01', ipallocation: 'static',  ext_nat: 'none'}
+- {count: '1', hostname: 'tst-ppm-www-1', ipaddress: '192.168.22.101', revaddr: '101', mac: '52:54:00:58:22:01', ipallocation: 'static',  ext_nat: 'none'}
+mariadb:
+- {count: '0', hostname: 'tst-ppm-clr-0', ipaddress: '192.168.21.102', revaddr: '102', mac: '52:54:00:58:21:02', ipallocation: 'static',  ext_nat: 'none', controller: 'true'}
+- {count: '1', hostname: 'tst-ppm-clr-1', ipaddress: '192.168.22.102', revaddr: '102', mac: '52:54:00:58:22:02', ipallocation: 'static',  ext_nat: 'none', controller: 'false'}
+- {count: '2', hostname: 'tst-ppm-clr-2', ipaddress: '192.168.21.103', revaddr: '103', mac: '52:54:00:58:21:03', ipallocation: 'static',  ext_nat: 'none', controller: 'false'}
+- {count: '3', hostname: 'tst-ppm-clr-3', ipaddress: '192.168.22.103', revaddr: '103', mac: '52:54:00:58:22:03', ipallocation: 'static',  ext_nat: 'none', controller: 'false'}
+file:
+- {count: '0', hostname: 'tst-ppm-file-0', ipaddress: '192.168.21.104', revaddr: '104', mac: '52:54:00:58:21:04', ipallocation: 'static',  ext_nat: 'none'}
+- {count: '1', hostname: 'tst-ppm-file-1', ipaddress: '192.168.22.104', revaddr: '104', mac: '52:54:00:58:22:04', ipallocation: 'static',  ext_nat: 'none'}
+sts:
+- {count: '0', hostname: 'tst-ppm-sts-0', ipaddress: '192.168.21.105', revaddr: '105', mac: '52:54:00:58:21:05', ipallocation: 'static',  ext_nat: 'none'}
+- {count: '1', hostname: 'tst-ppm-sts-1', ipaddress: '192.168.22.105', revaddr: '105', mac: '52:54:00:58:22:05', ipallocation: 'static',  ext_nat: 'none'}
+infra:
+- {count: '0', hostname: 'tst-ppm-infra-0', ipaddress: '192.168.21.106', revaddr: '106', mac: '52:54:00:58:21:06', ipallocation: 'static',  ext_nat: 'none'}
+- {count: '1', hostname: 'tst-ppm-infra-1', ipaddress: '192.168.22.106', revaddr: '106', mac: '52:54:00:58:22:06', ipallocation: 'static',  ext_nat: 'none'}
+mail:
+- {count: '0', hostname: 'tst-ppm-mail-0', ipaddress: '192.168.21.107', revaddr: '107', mac: '52:54:00:58:21:07', ipallocation: 'static',  ext_nat: 'none'}
+- {count: '1', hostname: 'tst-ppm-mail-1', ipaddress: '192.168.22.107', revaddr: '107', mac: '52:54:00:58:22:07', ipallocation: 'static',  ext_nat: 'none'}
+voip:
+- {count: '0', hostname: 'tst-ppm-voip-0', ipaddress: '192.168.21.108', revaddr: '108', mac: '52:54:00:58:21:08', ipallocation: 'static',  ext_nat: 'none'}
+- {count: '1', hostname: 'tst-ppm-voip-1', ipaddress: '192.168.22.108', revaddr: '108', mac: '52:54:00:58:22:08', ipallocation: 'static',  ext_nat: 'none'}
+
+exports:
+- {count: '0', export: '/var/nfs', allowed: '192.168.*.*', options: '(rw,async,no_root_squash,no_subtree_check,anonuid=33,anongid=33)'}
+
+mounts:
+- {count: '0', mntserver: '{{ file[0].hostname }}', mntserverip: '{{ file[0].ipaddress }}', mnttarget: '{{ exports[0].export }}', mntpoint: '/mnt/nfs', mnttype: 'nfs'}
+- {count: '1', mntserver: '{{ file[1].hostname }}', mntserverip: '{{ file[1].ipaddress }}', mnttarget: '{{ exports[0].export }}', mntpoint: '/mnt/nfs', mnttype: 'nfs'}
+
+nasmounts:
+- {count: '0', mntserver: '{{ nas[0].hostname }}', mntserverip: '{{ nas[0].ipaddress }}', mnttarget: '/volume1/{{ strata }}', mntpoint: '/mnt/nfs', mnttype: 'nfs'}
+
+folders:
+- {count: "0", alias: "crescendo_folder", path: "/var/www/crescendo/webroot/webroot"}
+- {count: "1", alias: "aurora_folder", path: "/var/www/aurora/"}
+- {count: "2", alias: "erp_folder", path: "/var/www/erp/"}
+- {count: "3", alias: "generic_folder", path: "/var/www/generic/"}
+- {count: "4", alias: "blank", path: "blank"}
+- {count: "5", alias: "blank", path: "blank"}
+- {count: "6", alias: "blank", path: "blank"} 
+- {count: "7", alias: "documents_folder", path: "/mnt/nfs"}
+- {count: "8", alias: "documentsdynamic_folder", path: "/mnt/nfs"}
+- {count: "9", alias: "devdatabasedestination_folder", path: "/var/www/generic/databasesamples/"}
+- {count: "10", alias: "temp_folder", path: "/tmp/"}
+- {count: "11", alias: "enbayacronrootlogdir_folder", path: "/var/log/enbaya/"}
+- {count: "12", alias: "rsync_folder", path: "/run/ppm/"}
+- {count: "13", alias: "backup_folder", path: "/var/backups/mysql/"}
+- {count: "14", alias: "backuprestore_folder", path: "/var/backups/mysql/work/"}
+- {count: "15", alias: "databasebackup_folder", path: "/var/rsync/db/"}
+- {count: "16", alias: "devdatabasework_folder", path: "${devdatabasedestination_folder}/work/"}
+- {count: "17", alias: "pathtovoicerecordings_folder", path: "/var/tmp"}
+- {count: "18", alias: "impactftpdirectory_folder", path: "prepaid/"}
+- {count: "19", alias: "devdocs_folder", path: "/opt/devdocs"}
+- {count: "20", alias: "enbayasts_folder", path: "/var/www/enbayasts"}
+- {count: "21", alias: "tcpdf_folder", path: "/var/www/tcpdf"}
+- {count: "22", alias: "sugarcrm_folder", path: "/var/www/sugarcrm"}
+- {count: "23", alias: "ppmwebsite_com_folder", path: "/var/www/ppmwebsite_com"}
+- {count: "24", alias: "geo_folder", path: "/var/www/geo/"}
+- {count: "25", alias: "ppmwebsite_coza_folder", path: "/var/www/ppmwebsite_coza"}
+
+emails:
+- {count: '0', alias: "systems_email", email: "tst-systems@prepaidmeters.com"}
+- {count: '1', alias: "sales_email", email: "tst-sales@prepaidmeters.com"}
+- {count: '2', alias: "support_email", email: "tst-support@prepaidmeters.com"}
+- {count: '3', alias: "testing_email", email: "tst-testing@prepaidmeters.com"}
+- {count: '4', alias: "development_email", email: "tst-development@prepaidmeters.com"}
+- {count: '5', alias: "accounts_email", email: "tst-accounts@prepaidmeters.com"}
+- {count: '6', alias: "accounts_warnings_email", email: "tst-accounts-warnings@prepaidmeters.com"}
+- {count: '7', alias: "product_email", email: "tst-product@prepaidmeters.com"}
+- {count: '8', alias: "alerts_email", email: "tst-alerts@prepaidmeters.com"}
+- {count: '9', alias: "backups_email", email: "tst-backups@prepaidmeters.com"}
+- {count: '10', alias: "cigicell_email", email: "tst-cigicell@prepaidmeters.com"}
+- {count: '11', alias: "blank", email: "blank"}
+
+smtp:
+- {count: '0', alias: "ppm_smtp", host: "mail.prepaidmeters.co.za", port: "25", user: "{{ ppm_smtp_user }}", password: "{{ ppm_smtp_pass }}", crypt: "tls", auth: "True"}
+
+
+
+users_db:
+- {count: '0', alias: "user0", user: "{{user0_user}}", password: "{{tst_user0_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user0_priv}}"}
+- {count: '1', alias: "user1", user: "{{user1_user}}", password: "{{tst_user1_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user1_priv}}"}
+- {count: '2', alias: "user2", user: "{{user2_user}}", password: "{{tst_user2_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user2_priv}}"}
+- {count: '3', alias: "user3", user: "{{user3_user}}", password: "{{tst_user3_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user3_priv}}"}
+- {count: '4', alias: "user4", user: "{{user4_user}}", password: "{{tst_user4_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user4_priv}}"}
+- {count: '5', alias: "user5", user: "{{user5_user}}", password: "{{tst_user5_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user5_priv}}"}
+- {count: '6', alias: "user6", user: "{{user6_user}}", password: "{{tst_user6_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user6_priv}}"}
+- {count: '7', alias: "user7", user: "{{user7_user}}", password: "{{tst_user7_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user7_priv}}"}
+- {count: '8', alias: "user8", user: "{{user8_user}}", password: "{{tst_user8_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user8_priv}}"}
+- {count: '9', alias: "user9", user: "{{user9_user}}", password: "{{tst_user9_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user9_priv}}"}
+- {count: '10', alias: "user10", user: "{{user10_user}}", password: "{{tst_user10_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user10_priv}}"}
+- {count: '11', alias: "user11", user: "{{user11_user}}", password: "{{tst_user11_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user11_priv}}"}
+- {count: '12', alias: "user12", user: "{{user12_user}}", password: "{{tst_user12_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user12_priv}}"}
+- {count: '13', alias: "user13", user: "{{user13_user}}", password: "{{tst_user13_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user13_priv}}"}
+- {count: '14', alias: "user14", user: "{{user14_user}}", password: "{{tst_user14_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user14_priv}}"}
+- {count: '15', alias: "user15", user: "{{user15_user}}", password: "{{tst_user15_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user15_priv}}"}
+- {count: '16', alias: "user16", user: "{{user16_user}}", password: "{{tst_user16_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user16_priv}}"}
+- {count: '17', alias: "user17", user: "{{user17_user}}", password: "{{tst_user17_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user17_priv}}"}
+- {count: '18', alias: "user18", user: "{{user18_user}}", password: "{{tst_user18_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user18_priv}}"}
+- {count: '19', alias: "user19", user: "{{user19_user}}", password: "{{tst_user19_pass}}", localhost: "localhost", remotehost: "%",  priv: "{{user19_priv}}"}
+
+usernames_external:
+- {count: '0', alias: "git_hub_user", username: "ppmsystems"}
+- {count: '1', alias: "impact_ftp_user", username: "water"}
+- {count: '2', alias: "clickatell_aurora_mobile_user", username: "clickatellws"}
+- {count: '3', alias: "cigicell_aurora_mobile_user", username: "cigicellws"}
+- {count: '4', alias: "impact_id_user", username: "45602"}
+
+usernames_internal:
+- {count: '0', alias: "crm_soap_user", username: "netmin"}
+- {count: '1', alias: "route_sms_user", username: "prepaidsms"}
+- {count: '2', alias: "hexing_webservice_user", username: "juice"}
+- {count: '3', alias: "enbayasts_user", username: "enbayasts"}
+
+databases:
+- {count: '0', alias: "crm_db", dbname: "{{ tst_crm_dbname }}"}
+- {count: '1', alias: "crescendo_db", dbname: "{{ tst_crescendo_dbname }}"}
+- {count: '2', alias: "aurora_db", dbname: "{{ tst_aurora_dbname }}"}
+- {count: '3', alias: "archive_db", dbname: "{{ tst_archive_dbname }}"}
+- {count: '4', alias: "audit_db", dbname: "{{ tst_audit_dbname }}"}
+- {count: '5', alias: "aurorabackup_db", dbname: "{{ tst_aurorabackup_dbname }}"}
+- {count: '6', alias: "enbayabackups_db", dbname: "{{ tst_enbayabackups_dbname }}"}
+- {count: '7', alias: "enbayasts_db", dbname: "{{ tst_enbayasts_dbname }}"}
+- {count: '8', alias: "AuroraMovedToCrescendo_db", dbname: "{{ tst_AuroraMovedToCrescendo_dbname }}"}
+- {count: '9', alias: "joomla_db", dbname: "{{ tst_joomla_dbname }}"}
+- {count: '10', alias: "propertyware_db", dbname: "{{ tst_propertyware_dbname }}"}

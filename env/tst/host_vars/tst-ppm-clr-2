@@ -1,0 +1,12 @@
+hostname: "{{ mariadb[2].hostname }}"
+ansible_ssh_host: "{{ mariadb[2].ipaddress }}"
+ip_allocation: "{{ mariadb[2].ipallocation }}"
+ext_nat: "{{ mariadb[2].ext_nat }}"
+
+mntserver: "{{ mounts[0].mntserver }}"
+mntserverip: "{{ mounts[0].mntserverip }}"
+mnttarget: "{{ mounts[0].mnttarget }}"
+mountpoint: "{{ mounts[0].mntpoint }}"
+mnttype: "{{ mounts[0].mnttype }}"
+
+rsyslogserver: "{{ infra[0].ipaddress }}"

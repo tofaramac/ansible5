@@ -1,0 +1,3 @@
+hostname: "{{ hosts.stg.apache2[1].hostname }}"
+ansible_ssh_host: "{{ hosts.stg.apache2[1].ipaddress }}"
+ext_nat: "{{ hosts.stg.apache2[1].ext_nat }}"

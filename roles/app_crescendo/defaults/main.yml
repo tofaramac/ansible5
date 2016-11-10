@@ -1,0 +1,7 @@
+---
+# defaults file for crescendo
+project_name: crescendo
+
+project_path: "/var/www/{{ project_name }}"
+
+project_repo: "{{ github[2].repo }}"

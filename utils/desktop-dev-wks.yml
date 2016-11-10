@@ -1,0 +1,26 @@
+## YAML Template.
+---
+- hosts: '{{ target }}'
+  become: true
+  gather_facts: yes
+  
+  include: desktop-wks.yml
+  
+  roles:
+    - ssh-keys
+    - git
+    - netbeans-ide
+
+ #   - app_databases
+ #   - app_crescendo
+ #   - app_aurora
+ #   - app_generic
+ #   - app_devdocs
+ #   - app_documents_dynamic
+ #   - app_enbaya_sts
+ #   - app_erp
+
+## apps above have depends on these in their plays
+#    - app_enbaya_ini
+    
+    

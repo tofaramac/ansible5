@@ -1,0 +1,57 @@
+---
+# tasks file for app_enbaya_sts_install
+- name: ensure run requirements installed
+  apt: name={{ item }} state=present update_cache=yes cache_valid_time=86400
+  with_items:
+    - openssl
+    - sqlite3
+    - libboost-system1.58.0
+    - libboost-chrono1.58.0
+    - unixodbc
+    - libmagic1
+  when: inventory_hostname in groups.
+
+- name: check if enbayasts is installed
+  command: dpkg-query -W enbayasts
+  register: enbayasts_check_deb
+  failed_when: enbayasts_check_deb.rc > 1
+  changed_when: enbayasts_check_deb.rc == 1
+
+- name: download enbayasts deb package
+  get_url: url="http://192.168.1.16/{{ enbayasts_package_name }}.deb" dest="/opt/{{ enbayasts_package_name }}.deb"
+  when: enbayasts_check_deb.rc == 1
+  
+- name: remove libpoco-dev
+  apt: name=libpoco-dev state=absent
+  
+- name: install enbayasts
+  apt: deb="/opt/{{ enbayasts_package_name }}.deb"
+  when: enbayasts_check_deb.rc == 1
+
+- name: import enbayasts database schema
+  mysql_db: state=import name=enbayasts target="/usr/share/enbayasts/schema.sql"
+    login_user="{{users_db.dev[15].user}}" login_password="{{ users_db.dev[15].password }}"
+
+- name: remove example configuation files
+  file: path=/etc/enbayasts/*.example state=absent
+
+- name: deploy configuration files
+  template: src={{ item.src }} dest=/etc/enbayasts/{{ item.dest }} owner=root 
+    group=root mode=0644
+  with_items:
+  - { src: 'amqp.ini.j2', dest: 'amqp.ini' }
+  - { src: 'database.ini.j2', dest: 'database.ini' }
+  - { src: 'logging.ini.j2', dest: 'logging.ini' }
+  - { src: 'logging_local.ini.j2', dest: 'logging_local.ini' }
+  - { src: 'node.ini.j2', dest: 'node.ini' }
+  - { src: 'prism.ini.j2', dest: 'prism.ini' }
+  - { src: 'stscheck.ini.j2', dest: 'stscheck.ini' }
+  - { src: 'stscontrol.ini.j2', dest: 'stscontrol.ini' }
+  - { src: 'stscrypt.ini.j2', dest: 'stscrypt.ini' }
+  - { src: 'stsfirehose.ini.j2', dest: 'stsfirehose.ini' }
+  - { src: 'stsif.ini.j2', dest: 'stsif.ini' }
+  - { src: 'stsnull.ini.j2', dest: 'stsnull.ini' }
+  
+#- name: check enbayasts enabled and started
+#  service: name=enbayasts enabled=true state=started
+

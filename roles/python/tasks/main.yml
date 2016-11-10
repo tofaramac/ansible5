@@ -1,0 +1,19 @@
+---
+# tasks file for python
+- name: install python
+  apt: name={{item}} state=present update_cache=yes cache_valid_time=86400
+  with_items:
+    - python
+    - python-simplejson
+    - python-software-properties
+    - python-pip
+    - python-dev
+    - python-mysqldb
+    - python-apt
+    - python-httplib2
+    - python-pycurl
+    - python-netaddr
+    - python-yaml
+    - python-jinja2
+    - python-six
+    - python-paramiko

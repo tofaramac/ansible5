@@ -1,0 +1,9 @@
+[dev:children]
+dev_wks
+dev_srv
+
+[dev_wks]
+ppm-jhb-dev-[1:254]
+
+[dev_srv]
+dev-jhb-vm-[1:254]

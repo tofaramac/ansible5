@@ -1,0 +1,11 @@
+---
+# defaults file for app_documents_dynamic
+project_name: documentsdynamic
+
+project_path: "/var/nfs"
+
+project_repo: "{{ github[11].repo }}"
+
+apache_hostnames:
+  - "{{ apache2[0].hostname }}"
+  - "{{ apache2[1].hostname }}"

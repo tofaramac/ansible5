@@ -1,0 +1,15 @@
+## YAML Template.
+---
+urls:
+  prd:
+  - {alias: "crm_url", url: "http://crm.prepaidmeters.co.za"}
+  - {alias: "dev_database_source_url", url: "http://preprod.generic.prepaidmeters.co.za/databasesamples/"}
+  stg:
+  - {alias: "crm_url", url: "http://crm.prepaidmeters.co.za"}
+  - {alias: "dev_database_source_url", url: "http://preprod.generic.prepaidmeters.co.za/databasesamples/"}
+  tst:
+  - {alias: "crm_url", url: "http://crm.prepaidmeters.co.za"}
+  - {alias: "dev_database_source_url", url: "http://preprod.generic.prepaidmeters.co.za/databasesamples/"}
+  dev:
+  - {alias: "crm_url", url: "http://crm.prepaidmeters.co.za"}
+  - {alias: "dev_database_source_url", url: "http://preprod.generic.prepaidmeters.co.za/databasesamples/"}

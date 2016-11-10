@@ -1,0 +1,29 @@
+[connection]
+id=openvpn
+uuid=f1a691b4-807f-4bb1-bbc9-b3be0e2b7543
+type=vpn
+permissions=
+secondaries=
+
+[vpn]
+connection-type=tls
+remote=41.85.145.19:1194
+comp-lzo=yes
+cert-pass-flags=0
+ns-cert-type=server
+dev-type=tun
+cert=/etc/openvpn/{{ user }}.crt
+dev=tun
+key=/etc/openvpn/{{ user }}.key
+ca=/etc/openvpn/ca.crt
+service-type=org.freedesktop.NetworkManager.openvpn
+
+[ipv4]
+dns-search=
+method=auto
+
+[ipv6]
+addr-gen-mode=stable-privacy
+dns-search=
+ip6-privacy=0
+method=auto

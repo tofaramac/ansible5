@@ -1,0 +1,54 @@
+---
+# tasks file for rsync
+- name: rsync install
+  apt: name=rsync state=present  update_cache=true cache_valid_time=86400
+  
+- name: deploy rsync conf
+  template: src=rsyncd.conf.j2 dest=/etc/rsyncd.conf 
+
+- name: deploy rsync-filters prd-ppm-file-0
+  template: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 'rsync-filter.j2', dest: '/var/nfs/prd-ppm-www-0/documentsdynamic/'}
+  when: inventory_hostname_short == "prd-ppm-file-0"
+  
+- name: rsync exports prd-ppm-file-0 to ppm-nas-1 mounts  
+  synchronize: src={{ item.src }} dest={{ item.dest }} 
+  with_items:
+    - { src: '/var/nfs/prd-ppm-clr-0', dest: '/mnt/nfs/ppm-nas-1/volume1/prd/prd-ppm-clr-0'}
+    - { src: '/var/nfs/prd-ppm-clr-2', dest: '/mnt/nfs/ppm-nas-1/volume1/prd/prd-ppm-clr-2'}
+    - { src: '/var/nfs/prd-ppm-www-0', dest: '/mnt/nfs/ppm-nas-1/volume1/prd/prd-ppm-www-0'}
+  delegate_to: "{{ hostname }}"
+  when: inventory_hostname_short == "prd-ppm-file-0"
+  
+
+- name: deploy rsync-filters prd-ppm-file-1
+  template: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 'rsync-filter.j2', dest: '/var/nfs/documentsdynamic/'}
+    - { src: 'rsync-filter.j2', dest: '/var/nfs/prd-ppm-www-1/documentsdynamic/'}
+  when: inventory_hostname_short == "prd-ppm-file-1"
+  
+- name: rsync exports prd-ppm-file-1 to ppm-nas-1 mounts  
+  synchronize: src={{ item.src }} dest={{ item.dest }} 
+  with_items:
+    - { src: '/var/nfs/prd-ppm-clr-1', dest: '/mnt/nfs/ppm-nas-1/volume1/prd/prd-ppm-clr-1'}
+    - { src: '/var/nfs/prd-ppm-clr-3', dest: '/mnt/nfs/ppm-nas-1/volume1/prd/prd-ppm-clr-3'}
+    - { src: '/var/nfs/prd-ppm-www-1', dest: '/mnt/nfs/ppm-nas-1/volume1/prd/prd-ppm-www-1'}
+  delegate_to: "{{ hostname }}"
+  when: inventory_hostname_short == "prd-ppm-file-1"
+  
+- name: deploy rsync-filters prd-ppm-file-jhb
+  template: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 'rsync-filter.j2', dest: '/var/nfs/documentsdynamic/'}
+    - { src: 'rsync-filter.j2', dest: '/var/nfs/prd-ppm-www-0/documentsdynamic/'}
+  when: inventory_hostname_short == "prd-ppm-file-jhb"
+  
+- name: rsync exports prd-ppm-file-jhb to ppm-nas-1 mounts  
+  synchronize: src={{ item.src }} dest={{ item.dest }} 
+  with_items:
+    - { src: '/var/nfs/prd-ppm-clr-jhb', dest: '/mnt/nfs/ppm-nas-1/volume1/prd/prd-ppm-clr-jhb'}
+    - { src: '/var/nfs/prd-ppm-www-jhb', dest: '/mnt/nfs/ppm-nas-1/volume1/prd/prd-ppm-www-jhb'}
+  delegate_to: "{{ hostname }}"
+  when: inventory_hostname_short == "prd-ppm-file-jhb"

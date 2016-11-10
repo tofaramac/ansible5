@@ -1,0 +1,59 @@
+---
+
+# tasks file for cron
+# TASKS TO PRUNE
+- name: remove voicecalls from {{ inventory_hostname }} older than 
+  cron: name="remove voicecalls older than" cron_file=remove-files-older 
+    user=root minute="00" hour="01" state=present 
+    job="find /var/spool/asterisk/monitor/* -mtime +5 -exec rm {} \;"
+  when: inventory_hostname in groups.voip
+
+# TASKS FROM * SERVERS TO FILE SERVERS
+- name: cron sync voicecalls from {{ inventory_hostname }} to prd-ppm-file-0 
+  cron: name="backup voicecalls to prd-ppm-file-0" cron_file={{ inventory_hostname }}-to-prd-ppm-file-0 
+    user=root minute="00" hour="22" state=present 
+    job="{{ rsync_opt }} --ignore-existing /var/spool/asterisk/monitor /mnt/nfs/prd-ppm-file-0/{{ inventory_hostname }}/"
+  when: "'0' in inventory_hostname and inventory_hostname in groups.voip"
+
+- name: cron sync voicecalls from {{ inventory_hostname }} to prd-ppm-file-1 
+  cron: name="backup voicecalls to prd-ppm-file-1" cron_file={{ inventory_hostname }}-to-prd-ppm-file-1 
+    user=root minute="00" hour="22" state=present 
+    job="sync -{{ rsync_opt }} --ignore-existing /var/spool/asterisk/monitor /mnt/nfs/prd-ppm-file-1/{{ inventory_hostname }}/"
+  when: "'1' in inventory_hostname and inventory_hostname in groups.voip"
+  
+# TASKS FROM FILE SERVERS TO NAS DEVICES
+- name: cron sync documentsdynamic
+  cron: name="backup {{ inventory_hostname }} to prd-ppm-nas-0" cron_file={{ inventory_hostname }}-to-prd-ppm-nas-0 
+    user=root minute="00" hour="04" state=present 
+    job="{{ rsync_opt }} --ignore-existing /var/nfs/{{ inventory_hostname }}/documentsdynamic /mnt/nfs/prd-ppm-nas-0/volume1/prd/{{ inventory_hostname }}/"
+  when: "'0' in inventory_hostname and inventory_hostname in groups.nfs"
+
+- name: cron sync documentsdynamic
+  cron: name="backup {{ inventory_hostname }} to prd-ppm-nas-1" cron_file={{ inventory_hostname }}-to-prd-ppm-nas-1 
+    user=root minute="00" hour="04" state=present 
+    job="{{ rsync_opt }} --ignore-existing /var/nfs/{{ inventory_hostname }}/documentsdynamic /mnt/nfs/prd-ppm-nas-1/volume1/prd/{{ inventory_hostname }}/"
+  when: "'1' in inventory_hostname and inventory_hostname in groups.nfs"
+  
+- name: cron sync databases
+  cron: name="backup {{ inventory_hostname }} to prd-ppm-nas-0" cron_file={{ inventory_hostname }}-to-prd-ppm-nas-0 
+    user=root minute="00" hour="02" state=present 
+    job="{{ rsync_opt }} --ignore-existing /var/nfs/{{ inventory_hostname }} /mnt/nfs/prd-ppm-nas-0/volume1/prd/{{ inventory_hostname }}/"
+  when: "'0' in inventory_hostname and inventory_hostname in groups.nfs"
+
+- name: cron sync databases
+  cron: name="backup {{ inventory_hostname }} to prd-ppm-nas-1" cron_file={{ inventory_hostname }}-to-prd-ppm-nas-1 
+    user=root minute="00" hour="02" state=present 
+    job="{{ rsync_opt }} --ignore-existing /var/nfs/{{ inventory_hostname }} /mnt/nfs/prd-ppm-nas-1/volume1/prd/{{ inventory_hostname }}/"
+  when: "'1' in inventory_hostname and inventory_hostname in groups.nfs"
+  
+- name: cron sync voicecalls
+  cron: name="backup voicecalls to prd-ppm-nas-0" cron_file={{ inventory_hostname }}-to-prd-ppm-nas-0 
+    user=root minute="00" hour="22" state=present 
+    job="{{ rsync_opt }} --ignore-existing /var/spool/asterisk/monitor /mnt/nfs/prd-ppm-nas-0/prd/{{ inventory_hostname }}/"
+  when: "'0' in inventory_hostname and inventory_hostname in groups.nfs"
+  
+- name: cron sync voicecalls
+  cron: name="backup voicecalls to prd-ppm-nas-1" cron_file={{ inventory_hostname }}-to-prd-ppm-nas-1 
+    user=root minute="00" hour="22" state=present 
+    job="{{ rsync_opt }} --ignore-existing /var/spool/asterisk/monitor /mnt/nfs/prd-ppm-nas-1/prd/{{ inventory_hostname }}/"
+  when: "'1' in inventory_hostname and inventory_hostname in groups.nfs"

@@ -1,0 +1,26 @@
+## YAML Template.
+---
+fqdns:
+  prd:
+    external:
+    - {alias: "impact_ftp_fqdn", fqdn: "ftp.amps.co.za"}
+    internal:
+    - {alias: "ppm_mail_fqdn", fqdn: "mail.prepaidmeters.co.za"}
+  stg:
+    external:
+    - {alias: "impact_ftp_fqdn", fqdn: "ftp.amps.co.za"}
+    internal:
+    - {alias: "ppm_mail_fqdn", fqdn: "mail.prepaidmeters.co.za"}
+  tst:
+    external:
+    - {alias: "impact_ftp_fqdn", fqdn: "ftp.amps.co.za"}
+    internal:
+    - {alias: "ppm_mail_fqdn", fqdn: "mail.prepaidmeters.co.za"}
+  dev:
+    external:
+    - {alias: "impact_ftp_fqdn", fqdn: "ftp.amps.co.za"}
+    internal:
+    - {alias: "ppm_mail_fqdn", fqdn: "mail.prepaidmeters.co.za"}
+    
+  
+  

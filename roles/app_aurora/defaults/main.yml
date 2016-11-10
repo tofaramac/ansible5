@@ -1,0 +1,7 @@
+---
+# defaults file for aurora
+project_name: aurora
+
+project_path: "/var/www/{{ project_name }}"
+
+project_repo: "{{ github[9].repo }}"

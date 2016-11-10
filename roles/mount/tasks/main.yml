@@ -1,0 +1,22 @@
+---
+# tasks file for mount
+# DEPRECATED SINCE AUTOFS
+- name: create local folder for all mounting points 
+  file: path={{ mountpoint }} state=directory mode=0755
+  
+- name: create mounting point folder for {{ mntserver }} in local folder {{ mountpoint }}
+  file: path={{ mountpoint }}/{{ mntserver }} state=directory 
+  
+- name: remote mount {{ mntserver }} on local folder mounting point {{ mountpoint }}/{{ mntserver }}
+  mount: name="{{ mountpoint }}/{{ mntserver }}" src="{{ mntserverip }}:{{ mnttarget }}" fstype="{{ mnttype }}"
+    state=mounted
+
+- name: check if remote folder for {{ inventory_hostname }} already exists in {{ mountpoint }}/{{ mntserver }}
+  stat: path="{{ mountpoint }}/{{ mntserver }}/{{ inventory_hostname }}"
+  register: remote_folder
+
+- name: create remote folder in mounted point {{ mountpoint }}/{{ mntserver }} for {{ inventory_hostname }}
+  file: path={{ mountpoint }}/{{ mntserver }}/{{ inventory_hostname }} owner=www-data 
+    group=www-data mode=0777 state=directory
+  when: remote_folder.stat.exists == False
+

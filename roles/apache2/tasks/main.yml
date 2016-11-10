@@ -1,0 +1,176 @@
+---
+# tasks file for apache2
+- name: apache2 install
+  apt: name=apache2 state=present update_cache=yes cache_valid_time=86400
+  when: inventory_hostname in groups.apache2
+
+- name: cleanout sites-enabled
+  file: path=/etc/apache2/sites-enabled/* state=absent
+  when: inventory_hostname in groups.apache2
+
+- name: cleanout sites-available
+  file: path=/etc/apache2/sites-available/* state=absent
+  when: inventory_hostname in groups.apache2
+  
+- name: set apache fqdn
+  file: path="/etc/apache2/conf.d/" state=directory
+  when: inventory_hostname in groups.apache2
+
+- name: deploy file fqdn
+  template: src={{ item }}.j2 dest="/etc/apache2/conf.d/{{ item }}"
+  with_items:
+    - fqdn
+  when: inventory_hostname in groups.apache2
+
+# INSTALL APACHE MODULES
+- name: install additional apache2 modules
+  apt: name={{ item }} state=present
+  with_items:
+      - libaprutil1-dbd-mysql
+      - apache2-utils
+      - libapache2-mod-php7.0
+      - libapache2-mod-fcgid
+      - libapache2-mod-security2
+      - libapache2-modsecurity
+      - libapache2-mod-evasive
+  when: inventory_hostname in groups.apache2
+
+# ENABLE APACHE MODULES
+- name: enable apache2 modules
+  apache2_module: name={{ item }} state=present
+  with_items:
+      - php7.0
+      - headers
+      - rewrite
+      - ssl
+      - socache_shmcb
+      - cgi
+      - fcgid
+      - evasive
+      - security2
+     # - dbd
+     # - authn_dbd
+  when: inventory_hostname in groups.apache2
+
+# - name: deploy a config file for dbd mod
+#   template: src=dbd_mysql.conf.j2 dest=/etc/apache2/conf-available/dbd_mysql.conf
+
+# - name: enable dbd mod conf
+#   command: a2enconf dbd_mysql
+
+- name: install wkhtmltopdf
+  apt: name=wkhtmltopdf state=present update_cache=yes cache_valid_time=86400
+  when: inventory_hostname in groups.apache2
+
+- name: deploy default conf
+  template: src=000-default.conf.j2 dest=/etc/apache2/sites-available/000-default.conf
+  when: inventory_hostname in groups.apache2
+
+- name: deploy default-ssl conf files
+  template: src=default-ssl.conf.j2 dest=/etc/apache2/sites-available/default-ssl.conf
+  when: inventory_hostname in groups.apache2
+  
+- name: enable default-ssl sites available
+  command: a2ensite default-ssl
+  when: inventory_hostname in groups.apache2
+
+- name: config apache2 basic security
+  template: src=security.conf.j2 dest=/etc/apache2/conf-enabled/security.conf
+  when: inventory_hostname in groups.apache2
+  
+- name: config security2 include owasp-modsecurity-crs
+  template: src=security2.conf.j2 dest=/etc/apache2/mods-available/security2.conf
+  when: inventory_hostname in groups.apache2
+  
+- name: config mod_security
+  template: src=modsecurity.conf.j2 dest=/etc/modsecurity/modsecurity.conf
+  when: inventory_hostname in groups.apache2
+  
+- name: check if owasp-modsecurity-crs archive exists
+  stat: path=/tmp/owasp-modsecurity-crs-master.zip
+  register: archive
+  when: inventory_hostname in groups.apache2
+  
+- name: check if owasp-modsecurity-crs directory exists
+  stat: path=/tmp/owasp-modsecurity-crs-master
+  register: folder
+  when: inventory_hostname in groups.apache2
+  
+- name: remove owasp-modsecurity-crs-master archive
+  file: path=/tmp/owasp-modsecurity-crs-master.zip state=absent
+  when: inventory_hostname in groups.apache2 and archive.stat.exists == 'True' 
+
+- name: remove owasp-modsecurity-crs-master directory
+  file: path=/tmp/owasp-modsecurity-crs-master state=absent
+  when: inventory_hostname in groups.apache2 and archive.stat.exists == 'True' 
+
+# wget https://github.com/SpiderLabs/owasp-modsecurity-crs/archive/master.zip
+- name: download owasp-modsecurity-crs archive
+  get_url: url="https://codeload.github.com/SpiderLabs/owasp-modsecurity-crs/zip/master"
+    dest=/tmp/
+  when: inventory_hostname in groups.apache2
+
+- name: xtract owasp-modsecurity-crs-master archive
+  unarchive: src=/tmp/owasp-modsecurity-crs-master.zip dest=/tmp/ copy=no
+    creates=owasp-modsecurity-crs-master mode=777
+  when: inventory_hostname in groups.apache2
+
+- name: copy files owasp-modsecurity-crs-master into place
+  shell: cp -r /tmp/owasp-modsecurity-crs-master/*  /etc/modsecurity/
+  when: inventory_hostname in groups.apache2
+
+- name: get list of base_rules
+  command: "ls -1 /etc/modsecurity/base_rules/"
+  register: base_rules
+  when: inventory_hostname in groups.apache2
+
+- name: get list of optional_rules
+  command: "ls -1 /etc/modsecurity/optional_rules/"
+  register: optional_rules
+  when: inventory_hostname in groups.apache2
+
+- name: activate the base_rules
+  file: src=/etc/modsecurity/base_rules/{{item}}
+    dest=/etc/modsecurity/activated_rules/{{item}} state=link
+  with_items: '{{ base_rules.stdout_lines }}'
+  when: inventory_hostname in groups.apache2
+
+- name: activate the optional_rules
+  file: src=/etc/modsecurity/optional_rules/{{item}}
+    dest=/etc/modsecurity/activated_rules/{{item}} state=link
+  with_items: "{{ optional_rules.stdout_lines }}"
+  when: inventory_hostname in groups.apache2
+
+- name: update modsecurity_crs_10_setup.conf
+  template: src=modsecurity_crs_10_setup.conf.j2
+    dest=/etc/modsecurity/modsecurity_crs_10_setup.conf
+  when: inventory_hostname in groups.apache2
+
+- name: create /var/log/mod_evasive
+  file: path=/var/log/mod_evasive state=directory owner=www-data group=www-data
+    mode=755
+  when: inventory_hostname in groups.apache2
+
+- name: update mod_evasive
+  template: src=evasive.conf.j2
+    dest=/etc/apache2/mods-available/evasive.conf
+  when: inventory_hostname in groups.apache2
+
+- name: activate mod_evasive
+  file: src=/etc/apache2/mods-available/evasive.conf
+    dest=/etc/apache2/mods-enabled/evasive.conf state=link
+  when: inventory_hostname in groups.apache2
+  notify: apache2 restart
+
+- name: check if logwatch installed
+  stat: path=/usr/sbin/logwatch
+  register: logwatch
+  when: inventory_hostname in groups.apache2
+
+- name: enable logwatch http.conf
+  template: src=roles/logwatch/templates/http.conf.j2 dest=/etc/logwatch/conf/logfiles/http.conf
+  when: inventory_hostname in groups.apache2 and logwatch.stat.exists == 'True'
+  
+- name: apache2 status
+  service: name=apache2 enabled=true state=restarted
+  when: inventory_hostname in groups.apache2

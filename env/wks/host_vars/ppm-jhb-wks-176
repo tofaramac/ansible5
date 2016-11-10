@@ -1,0 +1,22 @@
+ansible_ssh_host: 192.168.1.176
+hostname: "{{ hostname }}"
+mac: a0:1d:48:d6:02:09
+
+user: fulela
+user_first_surname: "Fulela Makasi"
+user_email: fulela@prepaidmeters.com
+user_appended_groups: www-data
+
+user_projects: [aurora, crescendo, devdocs, erp, generic, documents, documentsdynamic, tcpdf, sugarcrm]
+
+resolv: local
+
+#jhb lan
+jhb_network: 192.168.1.0
+netmask: 255.255.255.0
+gateway: 192.168.1.254
+broadcast: 192.168.1.255
+dns_nameservers: 8.8.8.8 8.8.4.4 192.168.1.29
+
+# firewall
+external_map: none

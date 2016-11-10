@@ -1,0 +1,5 @@
+---
+# tasks file for ssh-config
+- name: create ssh config file
+  template: src=config.j2 dest=/home/sean/.ssh/config state=present 
+    owner=sean groups=sean mode=0600

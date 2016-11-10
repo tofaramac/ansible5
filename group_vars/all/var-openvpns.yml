@@ -1,0 +1,13 @@
+## YAML Template.
+---
+openvpn_access:
+  grant:
+  - sean
+  - llewellyn
+  - tofara
+  - andries
+  - joe
+  - durand
+  - karen
+  revoke: []
+  

@@ -1,0 +1,18 @@
+---
+# tasks file for apparmor
+
+#- name: apparmor exists
+#  stat: path=/etc/init.d/apparmor
+#  register: apparmor_service
+
+#- name: apparmor stop
+#  service: name=apparmor state=stopped
+  
+- name: apparmor remove
+  service: name=apparmor enabled=false
+  when: inventory_hostname in groups.mariadb
+  
+- name: apparmor uninstall
+  apt: name=apparmor state=absent purge=true
+  when: inventory_hostname in groups.mariadb
+

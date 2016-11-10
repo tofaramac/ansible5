@@ -1,0 +1,39 @@
+## YAML Template.
+---
+files:
+  prd:
+  - {alias: "enbayaini_file", file: "{ roots.prd.root }/enbaya.ini"}
+  - {alias: "maintenancemodewebservers_file", file: "{ roots.prd.root }/maintenancemode.ini"}
+  - {alias: "maintenancemodedatabaseservers_file", file: "/run/ppm/maintenancemode.ini"}
+  - {alias: "enbayacronrootlog_file", file: "/var/log/enbaya/enbayacronroot.log"}
+  - {alias: "cronlogwwwdata=_file", file: "/var/log/enbaya/enbayacronwwwdata.log"}
+  - {alias: "cronreports_file", file: "/tmp/cronreports.txt"}
+  - {alias: "customhosts_file", file: "/root/customhosts"}
+  - {alias: "customapapcheconf_file", file: "/root/customapapcheconf.conf"}
+  stg:
+  - {alias: "enbayaini_file", file: "{ roots.dev.root }/enbaya.ini"}
+  - {alias: "maintenancemodewebservers_file", file: "{ roots.dev.root }/maintenancemode.ini"}
+  - {alias: "maintenancemodedatabaseservers_file", file: "/run/ppm/maintenancemode.ini"}
+  - {alias: "enbayacronrootlog_file", file: "/var/log/enbaya/enbayacronroot.log"}
+  - {alias: "cronlogwwwdata=_file", file: "/var/log/enbaya/enbayacronwwwdata.log"}
+  - {alias: "cronreports_file", file: "/tmp/cronreports.txt"}
+  - {alias: "customhosts_file", file: "/root/customhosts"}
+  - {alias: "customapapcheconf_file", file: "/root/customapapcheconf.conf"}
+  tst:
+  - {alias: "enbayaini_file", file: "{ roots.dev.root }/enbaya.ini"}
+  - {alias: "maintenancemodewebservers_file", file: "{ roots.dev.root }/maintenancemode.ini"}
+  - {alias: "maintenancemodedatabaseservers_file", file: "/run/ppm/maintenancemode.ini"}
+  - {alias: "enbayacronrootlog_file", file: "/var/log/enbaya/enbayacronroot.log"}
+  - {alias: "cronlogwwwdata=_file", file: "/var/log/enbaya/enbayacronwwwdata.log"}
+  - {alias: "cronreports_file", file: "/tmp/cronreports.txt"}
+  - {alias: "customhosts_file", file: "/root/customhosts"}
+  - {alias: "customapapcheconf_file", file: "/root/customapapcheconf.conf"}
+  dev:
+  - {alias: "enbayaini_file", file: "{ roots.dev.root }/enbaya.ini"}
+  - {alias: "maintenancemodewebservers_file", file: "{ roots.dev.root }/maintenancemode.ini"}
+  - {alias: "maintenancemodedatabaseservers_file", file: "/run/ppm/maintenancemode.ini"}
+  - {alias: "enbayacronrootlog_file", file: "/var/log/enbaya/enbayacronroot.log"}
+  - {alias: "cronlogwwwdata=_file", file: "/var/log/enbaya/enbayacronwwwdata.log"}
+  - {alias: "cronreports_file", file: "/tmp/cronreports.txt"}
+  - {alias: "customhosts_file", file: "/root/customhosts"}
+  - {alias: "customapapcheconf_file", file: "/root/customapapcheconf.conf"}

@@ -1,0 +1,5 @@
+## YAML Template.
+---
+nas:
+- {count: '0', hostname: 'ppm-nas-0', ipaddress: '192.168.1.16', mac: '00:11:32:43:C9:6F', ext_nat: 'none'}
+- {count: '1', hostname: 'ppm-nas-1', ipaddress: '192.168.1.169', mac: '00:11:32:60:3E:DB', ext_nat: 'none'}

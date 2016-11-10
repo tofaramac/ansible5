@@ -1,0 +1,31 @@
+---
+# tasks file for ssh-keys
+- name: create all users .ssh folders
+  file: path=/home/{{ item.username }}/.ssh owner={{ item.username }} 
+    group={{ item.username }} mode=0700 state=directory
+  with_items: "{{ users }}"
+
+- name: add netadmin id_rsa key 
+  template: src=netadmin_id_rsa.j2 dest=/home/netadmin/.ssh/id_rsa 
+    owner=netadmin group=netadmin mode=0600
+
+- name: add netadmin id_rsa.pub key
+  template: src=netadmin_id_rsa.pub.j2 dest=/home/netadmin/.ssh/id_rsa.pub 
+    owner=netadmin group=netadmin mode=0600
+    
+- name: output public keys to temporary files on localhost
+  local_action: copy content={{ item.sshkey_pub }} dest=/tmp/{{ item.username }}_authorized_keys
+  with_items: "{{ users }}"
+
+- name: upload public keys to users
+  copy: src="/tmp/{{ item.username }}_authorized_keys"
+    dest=/home/{{ item.username }}/.ssh/authorized_keys owner={{ item.username }} 
+    group={{ item.username }} mode=644
+  with_items: "{{ users }}"
+
+- name: add pub to authorized_keys file on host
+  authorized_key: user={{ item.username }} key={{ item.sshkey_pub }} 
+    path="/home/{{ item.username }}/authorized_keys" manage_dir=no
+    state=present
+  with_items: "{{ users }}"
+

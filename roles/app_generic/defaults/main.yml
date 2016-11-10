@@ -1,0 +1,7 @@
+---
+# defaults file for generic
+project_name: generic
+
+project_path: "/var/www/{{ project_name }}"
+
+project_repo: "{{ github[4].repo }}"

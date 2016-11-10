@@ -1,0 +1,33 @@
+---
+# tasks file for app_devdocs
+- name: create devdocs folder
+  file: path="{{ project_path }}" state=directory owner=root group=root mode=0777
+  when: inventory_hostname in groups.apache2 or groups.mariadb
+  
+- name: git clone devdocs
+  git: repo={{ project_repo }} dest={{ project_path }} accept_hostkey=yes
+    key_file="/home/netadmin/.ssh/id_rsa"
+  when: inventory_hostname in groups.apache2 or groups.mariadb
+
+- name: set all folder permissions (0777)
+  command: find {{ project_path }} -type d -exec chmod -c 0777 {} \;
+  when: inventory_hostname in groups.apache2 or groups.mariadb
+  
+- name: set all file permissions (0777)
+  command: find {{ project_path }}/ -type f -exec chmod -c 0777 {} \;
+  when: inventory_hostname in groups.apache2 or groups.mariadb
+
+- name: setup devdocs crons (www)
+  cron: name="setupcrons" cron_file=devdocs-setup-crons user=root minute="00" state=present 
+    job="{{ project_path }}/production/ppm-www/scripts/setupcrons.sh >> ${ enbayacronrootlog } 2>&1"
+  when: inventory_hostname in groups.apache2
+  
+- name: setup generic devdocs crons (www)
+  cron: name="genericcrons" cron_file=devdocs-generic-crons user=root minute="00" hour="01" state=present 
+    job="{{ project_path }}/production/ppm-www/scripts/genericcronsetup.sh >> ${ enbayacronrootlog } 2>&1"
+  when: inventory_hostname in groups.apache2
+  
+- name: setup devdocs crons (db)
+  cron: name="setupcrons" cron_file=devdocs-setup-crons user=root minute="00" state=present 
+    job="{{ project_path }}/production/ppm-db/scripts/setupcrons.sh >> ${ enbayacronrootlog } 2>&1"
+  when: inventory_hostname in groups.mariadb

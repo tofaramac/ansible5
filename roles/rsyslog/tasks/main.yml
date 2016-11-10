@@ -1,0 +1,14 @@
+---
+# tasks file for rsyslog
+- name: rsyslog receiving client config
+  template: src=client.rsyslog.conf.j2 dest=/etc/rsyslog.conf
+  notify: rsyslog restart
+  when: inventory_hostname in groups.rsyslog
+  
+- name: rsyslog sending servers config
+  template: src=server.10-rsyslog.conf.j2 dest=/etc/rsyslog.d/10-rsyslog.conf
+  notify: rsyslog restart
+  when: inventory_hostname not in groups.rsyslog
+
+- name: check rsyslog status
+  service: name=rsyslog state=restarted enabled=true

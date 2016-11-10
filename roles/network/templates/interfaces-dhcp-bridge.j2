@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+#
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+########################
+# External Firewall Mapping: {{ ext_nat }}
+
+auto lo
+iface lo inet loopback
+
+auto {{ ansible_default_ipv4.interface }} 
+iface {{ ansible_default_ipv4.interface }} inet dhcp
+  bridge_ports {{ ansible_default_ipv4.interface }}
+  bridge_stp off
+  bridge_fd 0
+  bridge_maxwait 0
+

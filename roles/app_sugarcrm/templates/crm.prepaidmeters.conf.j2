@@ -1,0 +1,105 @@
+<VirtualHost *:80>
+    ServerAdmin "{{emails[0].email}}"
+
+{% if 'prd' in inventory_hostname %}
+    ServerName crm.prepaidmeters.co.za
+{% else %}
+    ServerName crm.prepaidmeters.{{ tld[0].tld }}
+{% endif %}
+
+    SetEnv SQL_HOST 192.168.0.17
+    SetEnv SQL_USER crmuser
+    SetEnv SQL_PASS 8jC/DvK4u2P9B 
+    SetEnv SQL_DB   crm618
+    SetEnv SQL_ERP  enbaya
+    SetEnv SQL_CRM  crm618
+
+    DocumentRoot {{ folders[22].path }}/index.php
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+
+    <Directory {{ folders[22].path }}>
+      	DirectoryIndex index.php
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+    <Directory "/usr/lib/cgi-bin">
+        AllowOverride None
+        Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    ErrorLog /var/log/apache2/crm_error.log
+
+    # Possible values include: debug, info, notice, warn, error, crit, alert, emerg.
+    LogLevel error
+
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    Alias /doc/ "/usr/share/doc/"
+    <Directory "/usr/share/doc/">
+        Options Indexes MultiViews FollowSymLinks
+        AllowOverride None
+        Order deny,allow
+        Deny from all
+        Allow from 127.0.0.0/255.0.0.0 ::1/128
+    </Directory>
+
+   <Files ~ "^\.ht">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "\.inc">
+        Order allow,deny
+        Deny from all   
+    </Files>
+
+    <Files ~ "\.sql">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "\.sh">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "\.pl">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "\.gz">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "\.tar">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "~">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "git">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files *.ini>
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "zzz">
+        Order allow,deny
+        Deny from all   
+    </Files>
+    <Files ~ "bak">
+        Order allow,deny
+        Deny from all   
+    </Files>
+</VirtualHost>

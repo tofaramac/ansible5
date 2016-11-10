@@ -1,0 +1,3 @@
+---
+# vars file for netbeans-ide
+netbeans_ide_downloads_path: /var/lib/ansible/netbeans-ide/downloads

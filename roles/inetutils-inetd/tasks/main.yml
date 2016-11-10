@@ -1,0 +1,7 @@
+---
+# tasks file for inetutils-inetd
+- name: inetutils-inetd install
+  apt: name=inetutils-inetd state=present update_cache=yes cache_valid_time=86400
+  
+- name: deploy inetd conf
+  template: src=inetd.conf.j2 dest=/etc/inetd.conf owner=root group=root mode=0644

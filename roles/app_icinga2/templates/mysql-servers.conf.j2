@@ -1,0 +1,81 @@
+#prd-ppm-www-0
+define service{
+use			generic-service
+host_name		192.168.0.20
+;hostgroup can be used instead as well
+
+service_description		Check MYSQL via TCP port
+check_command			check_tcp!3306
+        }
+#prd-ppm-www-0
+define service{
+use				generic-service
+host_name			192.168.0.20
+;hostgroup can be used instead as well
+
+service_description	Check availability of database 'testDB'
+check_command	check_mysql_database!nagios!nagios-pass!testDB
+;check_mysql!userName!userPassword!databaseName
+        }
+				
+#prd-ppm-www-1
+define service{
+use			generic-service
+host_name		192.168.239.20
+;hostgroup can be used instead as well
+
+service_description		Check MYSQL via TCP port
+check_command			check_tcp!3306
+        }
+#prd-ppm-www-1
+define service{
+use				generic-service
+host_name			192.168.239.20
+;hostgroup can be used instead as well
+
+service_description	Check availability of database 'testDB'
+check_command	check_mysql_database!nagios!nagios-pass!testDB
+;check_mysql!userName!userPassword!databaseName
+        }
+				
+#prd-ppm-clr-1
+define service{
+use			generic-service
+host_name		192.168.239.11
+;hostgroup can be used instead as well
+
+service_description		Check MYSQL via TCP port
+check_command			check_tcp!3306
+        }
+#prd-ppm-clr-1
+define service{
+use				generic-service
+host_name			192.168.239.11
+;hostgroup can be used instead as well
+
+service_description	Check availability of database 'testDB'
+check_command	check_mysql_database!nagios!nagios-pass!testDB
+;check_mysql!userName!userPassword!databaseName
+        }
+				
+#prd-ppm-clr-3
+define service{
+use			generic-service
+host_name		192.168.239.4
+;hostgroup can be used instead as well
+
+service_description		Check MYSQL via TCP port
+check_command			check_tcp!3306
+        }
+
+#Monitor prd-ppm-clr-3
+define service{
+use				generic-service
+host_name			192.168.239.4
+;hostgroup can be used instead as well
+
+service_description	Check availability of database 'testDB'
+check_command	check_mysql_database!nagios!nagios-pass!testDB
+;check_mysql!userName!userPassword!databaseName
+        }
+				

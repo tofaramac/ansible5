@@ -1,0 +1,50 @@
+---
+# tasks file for wks-dev
+# depends: wks
+- name: install programs
+  apt: name={{item}} state=present update_cache=yes cache_valid_time=86400
+  with_items:
+    - grc
+    - pv
+    - netcat
+    - libboost-all-dev
+    - libmodbus-dev
+    - build-essential
+    - autoconf
+    - automake
+    - autotools-dev
+    - dh-make
+    - debhelper
+    - devscripts
+    - fakeroot
+    - lintian
+    - pbuilder
+    - uuid-dev
+    - libssl-dev
+    - libboost-all-dev
+    - libpoco-dev
+    - sqlite3
+    - pkg-config
+    - libtool
+    - amqp-tools
+    - terminator
+    - meld
+    - gitk
+    - mysql-workbench
+  
+- name: composer install
+  get_url: url="https://getcomposer.org/composer.phar dest=/usr/local/bin/composer"
+    mode=0755 validate_certs=no
+
+- name: create project folder
+  file: path=/home/{{ user }}/project state=directory mode=0755
+  become_user: "{{ user }}"
+  
+- name: remove www folder
+  file: dest=/var/www  state=absent
+  become: true
+  
+- name: link project to var www
+  file: dest=/var/www src=/home/{{ user }}/project owner={{ user }} group={{ user }}
+    state=link mode=0755
+  become: true

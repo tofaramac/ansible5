@@ -1,0 +1,37 @@
+---
+# tasks file for rabbitmq
+- name: rabbitmq-server install
+  apt: name=rabbitmq-server state=present update_cache=yes cache_valid_time=86400
+
+- name: stop rabbitmq server
+  service: name=rabbitmq-server enabled=yes state=stopped
+  
+- name: deploy rabbitmq conf
+  template: src=rabbitmq-env.conf.j2 dest=/etc/rabbitmq/rabbitmq-env.conf
+  
+- name: start rabbitmq server
+  service: name=rabbitmq-server state=started
+  
+- name: add rabbitmq user for enbayasts
+  rabbitmq_user: node="{{ hostname }}" 
+    username="{{ usernames.dev.internal[3].username }}" 
+    password="{{ passwords.dev[13].password }}" vhost="/" configure_priv=".*" 
+    read_priv=".*" write_priv=".*" state=present
+  ignore_errors: yes
+  
+- name: add rabbitmq vhost
+  rabbitmq_vhost: node="{{ hostname }}" vhost=sts state=present
+
+- name: add rabbitmq user for enbayasts to sts exchange
+  rabbitmq_user: node="{{ hostname }}" 
+    username="{{ usernames.dev.internal[3].username }}" 
+    password="{{ passwords.dev[13].password }}" vhost="sts" configure_priv=".*" 
+    read_priv=".*" write_priv=".*" state=present
+  ignore_errors: yes
+  
+- name: copy erlang.cookie
+  copy: src=erlang.cookie dest=/var/lib/rabbitmq/.erlang.cookie 
+    owner=rabbitmq group=rabbitmq mode=0400
+    
+- name: rabbitmq-server status
+  service: name=rabbitmq-server enabled=true state=restarted

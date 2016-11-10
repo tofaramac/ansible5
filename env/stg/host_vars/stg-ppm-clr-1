@@ -1,0 +1,3 @@
+hostname: "{{ hosts.stg.mariadb[1].hostname }}"
+ansible_ssh_host: "{{ hosts.stg.mariadb[1].ipaddress }}"
+ext_nat: "{{ hosts.stg.mariadb[1].ext_nat }}"

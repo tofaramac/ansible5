@@ -1,0 +1,46 @@
+---
+# tasks file for app_documents_dynamic
+- name: create apache server folder {{ apache_hostnames[0] }}
+  file: path="{{ project_path }}/{{ apache_hostnames[0] }}" state=directory owner=www-data 
+    group=www-data mode=0755
+  when: "'0' in inventory_hostname and inventory_hostname in groups.nfs"
+
+- name: create apache server folder {{ apache_hostnames[1] }}
+  file: path="{{ project_path }}/{{ apache_hostnames[1] }}" state=directory owner=www-data 
+    group=www-data mode=0755
+  when: "'1' in inventory_hostname and inventory_hostname in groups.nfs"
+
+- name: git clone project {{ apache_hostnames[0] }}
+  git: repo="{{ project_repo }}" dest="{{ project_path }}/{{ apache_hostnames[0] }}/{{ project_name }}"
+    accept_hostkey=yes key_file="/home/netadmin/.ssh/id_rsa"
+  when: "'0' in inventory_hostname and inventory_hostname in groups.nfs"
+
+- name: git clone project {{ apache_hostnames[1] }}
+  git: repo="{{ project_repo }}" dest="{{ project_path }}/{{ apache_hostnames[1] }}/{{ project_name }}"
+    accept_hostkey=yes key_file="/home/netadmin/.ssh/id_rsa"
+  when: "'1' in inventory_hostname and inventory_hostname in groups.nfs"
+
+- name: deploy apache conf files
+  template: src={{ project_name }}.prepaidmeters.conf.j2 
+    dest=/etc/apache2/sites-available/{{ project_name }}.prepaidmeters.{{ tld[0].tld }}.conf
+  when: inventory_hostname in groups.apache2
+  
+- name: enable sites available
+  command: a2ensite {{ project_name }}.prepaidmeters.{{ tld[0].tld }}.conf
+  when: inventory_hostname in groups.apache2
+
+- name: set all folder permissions (0755) {{ apache_hostnames[0] }}
+  command: find {{ project_path }}/{{ apache_hostnames[0] }}/{{ project_name }} -type d -exec chmod -c 0755 {} \;
+  when: "'0' in inventory_hostname and inventory_hostname in groups.nfs"
+
+- name: set all folder permissions (0755) {{ apache_hostnames[1] }}
+  command: find {{ project_path }}/{{ apache_hostnames[1] }}/{{ project_name }} -type d -exec chmod -c 0755 {} \;
+  when: "'1' in inventory_hostname and inventory_hostname in groups.nfs"
+  
+- name: set all file permissions (0644) {{ apache_hostnames[0] }}
+  command: find {{ project_path }}/{{ apache_hostnames[0] }}/{{ project_name }}/ -type f -exec chmod -c 0644 {} \;
+  when: "'0' in inventory_hostname and inventory_hostname in groups.nfs"
+
+- name: set all file permissions (0644) {{ apache_hostnames[1] }}
+  command: find {{ project_path }}/{{ apache_hostnames[1] }}/{{ project_name }}/ -type f -exec chmod -c 0644 {} \;
+  when: "'1' in inventory_hostname and inventory_hostname in groups.nfs"

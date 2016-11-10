@@ -1,0 +1,16 @@
+## YAML Template.
+---
+emails_external:
+- {count: '0', alias: "impact_to_email", email: "cron@amps.co.za"}
+- {count: '1', alias: "mrprepaid_to_email", email: "subs@mrprepaid.co.za"}
+- {count: '2', alias: "propertyware_google_email", email: "549092841382-gr89lf4l5lv58iha2efj0j4s7bh6hppt@developer.gserviceaccount.com"}
+- {count: '3', alias: "google_api_service_account_email", email: "549092841382-5qr2c0k9odmqtn55gtjh2al66u3rmt9r@developer.gserviceaccount.com"}
+- {count: '4', alias: "propertyware_facebook_email", email: "cc381fc9072caa89f6619c96b1fd8c7e"}
+
+emails_other:
+- {count: '0', alias: "getresponseuser_email", email: "netmin@prepaidmeters.com"}
+- {count: '1', alias: "netcashemailaddress_email", email: "netcash@prepaidmeters.co.za"}
+- {count: '2', alias: "emailfrom_email", email: "noreply@prepaidmeters.net"}
+- {count: '3', alias: "alertemailfrom_email", email: "noreply@prepaidmeters.net"}
+- {count: '4', alias: "cronemailto_email", email: "systems@prepaidmeters.com"}
+- {count: '5', alias: "cronemailfrom_email", email: "systems@prepaidmeters.com"}

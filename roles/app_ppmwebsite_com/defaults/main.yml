@@ -1,0 +1,7 @@
+---
+# defaults file for app_ppmwebsite_com
+project_name: ppmwebsite_com
+
+project_path: "/var/www/{{ project_name }}"
+
+project_repo: "{{ github[13].repo }}"

@@ -1,0 +1,31 @@
+---
+# tasks file for git
+- name: install git
+  apt: name=git state=present update_cache=yes cache_valid_time=86400
+
+#- name: read ssh public key to authorize
+#  shell: cat /home/{{user}}/.ssh/{{user}}_id_rsa.pub
+#  register: ssh_pub_key
+
+#- name: authorize key with github
+#  local_action:
+#    module: github_key
+#    name: 'Access Key for Some Machine as {{user}}'
+#    token: '{{github_access_token}}'
+#    pubkey: '{{ssh_pub_key.stdout}}'
+
+#THIS PART IS FAILING 
+#- name: set username
+#  git_config: name=user.name scope=global value="{{ user_first_surname }}"
+
+#- name: set user email
+#  git_config: name=user.email scope=global value="{{ user_email }}"
+#  become_user: "{{ user }}"
+  
+#- name: use colorful git output
+#  git_config: name=color.ui scope=global value=true
+#  become_user: "{{ user }}"
+  
+#- name: show log on just one line per commit
+#  git_config: name="format.pretty" scope=global value=oneline
+#  become_user: "{{ user }}"

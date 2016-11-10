@@ -1,0 +1,44 @@
+## YAML Template.
+---
+msisdns:
+  prd:
+  - {alias: "executive1_msisdn", msisdn: "0768877775"}
+  - {alias: "executive2_msisdn", msisdn: "0768877775"}
+  - {alias: "manager1_msisdn", msisdn: "0793686552"}
+  - {alias: "manager2_msisdn", msisdn: "0793686552"}
+  - {alias: "electrician1_msisdn", msisdn: "0828300968"}
+  - {alias: "electrician2_msisdn", msisdn: "0828300968"}
+  - {alias: "plumber1_msisdn", msisdn: "0793686552"}
+  - {alias: "plumber2_msisdn", msisdn: "0793686552"}
+  - {alias: "cigicell_msisdn", msisdn: "0834588279"}
+  stg:
+  - {alias: "executive1_msisdn", msisdn: "0768877775"}
+  - {alias: "executive2_msisdn", msisdn: "0768877775"}
+  - {alias: "manager1_msisdn", msisdn: "0793686552"}
+  - {alias: "manager2_msisdn", msisdn: "0793686552"}
+  - {alias: "electrician1_msisdn", msisdn: "0828300968"}
+  - {alias: "electrician2_msisdn", msisdn: "0828300968"}
+  - {alias: "plumber1_msisdn", msisdn: "0793686552"}
+  - {alias: "plumber2_msisdn", msisdn: "0793686552"}
+  - {alias: "cigicell_msisdn", msisdn: "0834588279"}
+  tst:
+  - {alias: "executive1_msisdn", msisdn: "0768877775"}
+  - {alias: "executive2_msisdn", msisdn: "0768877775"}
+  - {alias: "manager1_msisdn", msisdn: "0793686552"}
+  - {alias: "manager2_msisdn", msisdn: "0793686552"}
+  - {alias: "electrician1_msisdn", msisdn: "0828300968"}
+  - {alias: "electrician2_msisdn", msisdn: "0828300968"}
+  - {alias: "plumber1_msisdn", msisdn: "0793686552"}
+  - {alias: "plumber2_msisdn", msisdn: "0793686552"}
+  - {alias: "cigicell_msisdn", msisdn: "0834588279"}
+  dev:
+  - {alias: "executive1_msisdn", msisdn: "0768877775"}
+  - {alias: "executive2_msisdn", msisdn: "0768877775"}
+  - {alias: "manager1_msisdn", msisdn: "0793686552"}
+  - {alias: "manager2_msisdn", msisdn: "0793686552"}
+  - {alias: "electrician1_msisdn", msisdn: "0828300968"}
+  - {alias: "electrician2_msisdn", msisdn: "0828300968"}
+  - {alias: "plumber1_msisdn", msisdn: "0793686552"}
+  - {alias: "plumber2_msisdn", msisdn: "0793686552"}
+  - {alias: "cigicell_msisdn", msisdn: "0834588279"}
+  

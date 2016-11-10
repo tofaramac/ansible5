@@ -1,0 +1,5 @@
+---
+# tasks file for cloud-init
+- name: cloud-init install
+  apt: name=cloud-init state=present update_cache=yes cache_valid_time=86400
+  when: inventory_hostname in groups.kvm_host

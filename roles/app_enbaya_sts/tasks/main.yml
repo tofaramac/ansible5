@@ -1,0 +1,55 @@
+---
+# tasks file for enbaya-sts
+- name: check if user should checkout project
+  fail: msg="project not in users allowed list"
+  when: "'{{ project_name }}' not in user_projects"
+  
+# We only ever do a checkout on a host where we compile such as dev hosts
+- name: check enbayasts exists
+  stat: path={{ folders.dev[20].path }}
+  register: enbayasts_folder
+
+- name: git clone enbayasts
+  git: repo={{ github[7].repo }} dest={{ folders.dev[20].path }} accept_hostkey=yes
+    key_file="/home/{{ user }}/.ssh/{{ user }}_id_rsa"
+  become_user: "{{ user }}"
+  when: "enbayasts_folder.stat.exists == False"
+
+# below commented unto we get it working on 16.04
+#- name: go back to become
+#  debug: msg="switching back to su"
+#  become: true
+  
+#- name: enbayasts install check
+#  command: dpkg-query -W enbayasts
+#  register: enbaya_sts_check_deb
+#  failed_when: enbaya_sts_check_deb.rc > 1
+# changed_when: enbaya_sts_check_deb.rc == 1
+  
+#- name: enbayasts install file
+#  apt: deb="/var/nas/enbayasts_{{enbayasts_version}}-rc{{enbayasts_rc}}_{{enbayasts_arch}}.deb"
+#  when: enbaya_sts_check_deb.rc == 1
+  
+#- name: deploy enbayasts *.ini files
+#  template: src={{ item }}.ini.j2 dest=/etc/enbayasts/{{ item }}.ini
+#  with_items:
+#    - amqp     
+#    - logging        
+#    - node  
+#    - prism     
+#    - stscontrol  
+#    - stsif
+#    - database  
+#    - logging_local  
+#    - stscheck  
+#    - stscrypt    
+#    - stswatchdog
+
+#- name: ensure rabbitmq-server is running
+#  service: name=rabbitmq-server enabled=true state=restarted
+    
+#- name: ensure enbayasts is running 
+#  service: name=enbayasts enabled=true state=restarted
+           
+#- name: enbayasts check 
+#  command: stscheck

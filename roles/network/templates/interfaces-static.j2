@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+#
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+########################
+# External Firewall Mapping: {{ ext_nat }}
+
+auto lo
+iface lo inet loopback
+
+auto {{ ansible_default_ipv4.interface }} 
+iface {{ ansible_default_ipv4.interface }} inet static
+  address {{ ansible_default_ipv4.address }}
+  broadcast {{ ansible_default_ipv4.broadcast }}
+  gateway {{ ansible_default_ipv4.gateway }}
+  netmask {{ ansible_default_ipv4.netmask }}
+  network {{ ansible_default_ipv4.network }}
+  dns-nameservers {{ infra[0].ipaddress }}
+  dns-nameservers {{ infra[1].ipaddress }}
+  dns-nameservers 8.8.8.8
+  dns-search {{ domains[0].domain }}.{{ tld[0].tld }}
+  
+

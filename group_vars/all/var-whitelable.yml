@@ -1,0 +1,11 @@
+## YAML Template.
+---
+whitelabels:
+  prd:
+  - {alias: "google_api_za_label", label: "ZA"}
+  stg:
+  - {alias: "google_api_za_label", label: "ZA"}
+  tst:
+  - {alias: "google_api_za_label", label: "ZA"}
+  dev:
+  - {alias: "google_api_za_label", label: "ZA"}

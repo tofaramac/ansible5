@@ -1,0 +1,19 @@
+## YAML Template.
+---
+crypts:
+  prd:
+  - {alias: "url_md5_token", token: "{{ url_md5_token }}"}
+  - {alias: "tx_token", token: "{{ tx_token }}"}
+  - {alias: "password_token", token: "{{ password_token }}"}
+  stg:
+  - {alias: "url_md5_token", token: "{{ url_md5_token }}"}
+  - {alias: "tx_token", token: "{{ tx_token }}"}
+  - {alias: "password_token", token: "{{ password_token }}"}
+  tst:
+  - {alias: "url_md5_token", token: "{{ url_md5_token }}"}
+  - {alias: "tx_token", token: "{{ tx_token }}"}
+  - {alias: "password_token", token: "{{ password_token }}"}
+  dev:
+  - {alias: "url_md5_token", token: "{{ url_md5_token }}"}
+  - {alias: "tx_token", token: "{{ tx_token }}"}
+  - {alias: "password_token", token: "{{ password_token }}"}

@@ -1,0 +1,12 @@
+---
+# handlers file for rundeck
+
+- name: rundeck start
+  service: name=rundeckd state=started
+  
+- name: rundeck stop
+  service: name=rundeckd state=stopped
+  
+- name: rundeck restart
+  service: name=rundeckd state=restarted
+  

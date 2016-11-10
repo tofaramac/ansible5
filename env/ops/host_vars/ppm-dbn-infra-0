@@ -1,0 +1,24 @@
+---
+var_hosts: "hosts.{{ strata }}.lan_infra_dbn[0]"
+ansible_ssh_host: "{{ var_hosts }}.ipaddress"
+external_nat: "{{ var_hosts }}.external-nat"
+
+config:
+  network:
+  - {hostname: '{{ var_hosts }}.hostname'}
+  - {ipaddress: '{{ var_hosts }}.ipaddress', 
+     network: '{{ var_hosts }}.network', 
+     netmask: '{{ var_hosts }}.netmask', 
+     gateway: '{{ var_hosts }}.gateway', 
+     broadcast: '{{ var_hosts }}.broadcast', 
+     dns: '{{ var_hosts }}.dns', 
+     dns-search: '{{ var_hosts }}.dns-search',
+     mac: '{{ var_hosts }}.mac'  
+     }
+  services:
+  - {ntp: '{{ var_hosts }}.ntp', rsyslog: '{{ var_hosts }}.rsyslog'}
+  user:
+  - {user-name: '{{ var_hosts }}.user-name', user-fullname: '{{ var_hosts }}.user-fullname', user-email: '{{ var_hosts }}.user-email'}
+
+# firewall
+external_map: none

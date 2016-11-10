@@ -1,0 +1,4 @@
+---
+# vars file for rundeck
+
+rundeck_download_path: /tmp/rundeck

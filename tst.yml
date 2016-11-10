@@ -1,0 +1,57 @@
+## YAML Template.
+---
+- hosts: '{{ target }}'
+  become: true
+  gather_facts: True
+#  serial: 2
+  vars_files:
+  - env/{{ strata }}/group_vars/{{ strata }}.yml
+  roles:
+  - boostrap
+  - squid-deb-proxy
+# base host
+  - network
+  - apt
+  - users
+#  - ssh-keys
+  - bash
+  - server-base
+  - postfix
+  - nrpe-agent
+  - nfs
+  - logwatch
+  - acct
+  - logrotate
+  - python
+  - git
+  - chrootkit
+  - maldetect
+  - rkhunter
+# services
+  - autofs
+  - rsyslog
+  - bind
+  - mariadb
+  - apache2
+  - haproxy
+# apps
+  - app_databases
+  - app_devdocs
+  - app_documents
+  - app_documents_dynamic
+#  - app_enbaya_ini
+  - app_geo
+  - app_tcpdf
+  - app_generic
+  - app_erp
+  - app_aurora
+  - app_crescendo
+#  - app_enbaya_sts_install
+#  - app_icinga
+#  - app_openaudit
+#  - app_itop
+#  - app_sugarcrm
+#  - app_ppmwebsite_coza
+#  - app_ppmwebsite_com
+
+# checks

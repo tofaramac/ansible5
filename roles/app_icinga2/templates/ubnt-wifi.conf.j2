@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+{% if inventory_hostname_short in groups['ubnt_wifi_jhb'] %}
+{% for host in ubnt_wifi_jhb %}
+object Host "{{ hostname }}" {
+  check_command = "hostalive"
+  address = "{{ ansible_ssh_host }}"
+}
+{% endfor %}
+{% endif %}
+
+{% if inventory_hostname_short in groups['ubnt_wifi_dbn'] %}
+{% for host in ubnt_wifi_dbn %}
+object Host "{{ hostname }}" {
+  check_command = "hostalive"
+  address = "{{ ansible_ssh_host }}"
+}
+{% endfor %}
+{% endif %}

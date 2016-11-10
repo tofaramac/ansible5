@@ -1,0 +1,11 @@
+## YAML Template.
+---
+- hosts: '{{ target }}'
+  become: true
+  gather_facts: yes
+  
+  include: desktop-dev-wks.yml
+
+  roles:
+    - wks-ops
+    - cssh

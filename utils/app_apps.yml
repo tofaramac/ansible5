@@ -1,0 +1,17 @@
+## YAML Template.
+---
+- hosts: '{{ target }}'
+  become: true
+  roles:
+    - app_aurora
+    - app_crescendo
+    - app_databases
+    - app_devdocs
+    - app_documents
+    - app_documents_dynamic
+    - app_enbaya_ini
+#    - app_enbaya_sts
+    - app_erp
+    - app_generic
+    - app_pervasive
+    - app_tcpdf

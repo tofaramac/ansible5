@@ -1,0 +1,16 @@
+## YAML Template.
+---
+
+keyfiles:
+  prd:
+    google:
+    - {alias: "google_api_keyfile", id: "{{ google_api_id }}", keyfile: "{{ google_api_keyfile }}"}
+  stg:
+    google:
+    - {alias: "google_api_keyfile", id: "{{ google_api_id }}", keyfile: "{{ google_api_keyfile }}"}
+  tst:
+    google:
+    - {alias: "google_api_keyfile", id: "{{ google_api_id }}", keyfile: "{{ google_api_keyfile }}"}
+  dev:
+    google:
+    - {alias: "google_api_keyfile", id: "{{ google_api_id }}", keyfile: "{{ google_api_keyfile }}"}
